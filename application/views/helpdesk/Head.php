@@ -6,25 +6,15 @@
     <title>CGP IBERIA - Gestin de Incidencias</title>
 
     <link href="<?php echo base_url(); ?>css/modern.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/jquery.cleditor.css" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>css/ui/jquery-ui-1.9.2.custom.css" />
+    <link rel="stylesheet" href="<?php echo base_url(); ?>css/elrte/elrte.min.css" type="text/css" media="screen" charset="utf-8" />
+    
     
     <script type="text/javascript" src="<?php echo base_url(); ?>js/assets/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>js/modern/dropdown.js"></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>js/nueva_incidencia.js" ></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>js/cleditor/jquery.cleditor.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/tiny_mce/tiny_mce.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>js/assets/jquery-ui-1.9.2.custom.min.js"></script>
     
-    <script type="text/javascript">
-      $(document).ready
-      (
-        function() 
-        {
-            $.cleditor.defaultOptions.width = 800;
-            $.cleditor.defaultOptions.heiht = 500;
-            $("#problema").cleditor();
-        }
-      );
-    </script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/Helpdesk.js" ></script>
     
 </head>

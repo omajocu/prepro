@@ -5,61 +5,18 @@
 
     <title>CGP IBERIA - Gestión de Incidencias</title>
 
-    <link href="<?php echo base_url(); ?>css/modern.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/jquery.cleditor.css" />
-    <link rel="stylesheet" href="<?php echo base_url(); ?>css/jquery.fancybox.css?v=2.1.3" type="text/css" media="screen" />
-
+        <link href="<?php echo base_url(); ?>css/modern.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="<?php echo base_url(); ?>css/ui/jquery-ui-1.9.2.custom.css" />
+    <link rel="stylesheet" href="<?php echo base_url(); ?>css/elrte/elrte.min.css" type="text/css" media="screen" charset="utf-8" />
+    
     <script type="text/javascript" src="<?php echo base_url(); ?>js/assets/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>js/modern/dropdown.js"></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>js/nueva_incidencia.js" ></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>js/cleditor/jquery.cleditor.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>js/fancybox/jquery.fancybox.pack.js?v=2.1.3"></script>
-    
-    <script type="text/javascript">
-      $(document).ready
-      (
-        function() 
-        {
-            $.cleditor.defaultOptions.width = 800;
-            $.cleditor.defaultOptions.heiht = 500;
-            $("#problema").cleditor();
-        }
-      );
-    </script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/Helpdesk.js" ></script>
+    <script type="text/javascript"src="<?php echo base_url(); ?>js/elrte/js/elrte.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/elrte/js/i18n/elrte.es.js" charset="utf-8"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/assets/jquery-ui-1.9.2.custom.min.js"></script>
 
-    <script type="text/javascript">
-	   $(document).ready
-       (
-            function() 
-            {
-		      $(".fancybox").fancybox();
-            }
-        );
-    </script>
     
-    <script type="text/javascript">
-        $(document).ready
-        (
-            function() 
-            {
-	           $(".various").fancybox
-               ({
-		          maxWidth	: 850,
-		          maxHeight	: 600,
-		          fitToView	: false,
-		          width		: '70%',
-		          height	: '70%',
-		          autoSize	: true,
-		          closeClick	: false,
-		          openEffect	: 'elastic',
-		          closeEffect	: 'elastic',
-		          scrolling : 'auto',
-		          preload   : true,
-		          closeBtn	: true
-	           });
-            }
-        );
-    </script>
 </head>
 
 <body class="modern-ui">

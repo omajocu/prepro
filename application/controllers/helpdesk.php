@@ -107,7 +107,7 @@ class Helpdesk extends CI_Controller
         $this->load->model('helpdesk/Partes','',TRUE);
         $this->load->model('helpdesk/Remedys','',TRUE);
         
-        //$this->load->view('helpdesk/Head');
+        $this->load->view('helpdesk/Head');
         
         $Incidencia = $this->Incidencias->GetIncidenciaById($_POST['IdIncidencia']);
        
@@ -144,7 +144,7 @@ class Helpdesk extends CI_Controller
         for($CuentaElementos = 0; $CuentaElementos < count($Elementos); $CuentaElementos++)
         {
             $Opciones = '<a href="#" onclick="DelElemento('. $Elementos[$CuentaElementos]['IdElemento'] . ', ' . $Incidencia['IdIncidencia'] . ')"><i class="icon-remove"></i></a>';
-            $Listado['Elementos'] = $Elementos[$CuentaElementos]['TipoElemento'] . " : " . $Elementos[$CuentaElementos]['Elemento'] . " " . $Opciones . br(1);
+            $Listado['Elementos'] .= $Elementos[$CuentaElementos]['TipoElemento'] . " : " . $Elementos[$CuentaElementos]['Elemento'] . " " . $Opciones . br(1);
         }
                 
         $Comentarios = $this->Comentarios->GetComentarios($Incidencia['IdIncidencia']);
@@ -153,7 +153,7 @@ class Helpdesk extends CI_Controller
         for($CuentaComentarios = 0; $CuentaComentarios < count($Comentarios); $CuentaComentarios++)
         {
             $Opciones = '<a href="#" onclick="DelComentario('. $Comentarios[$CuentaComentarios]['IdComentario'] . ', ' . $Incidencia['IdIncidencia'] . ')"><i class="icon-remove"></i></a>';
-            $Listado['Comentarios'] = $Comentarios[$CuentaComentarios]['TipoComentario'] . " : " . $Comentarios[$CuentaComentarios]['Comentario'] . " " . $Opciones . br(1);
+            $Listado['Comentarios'] .= $Comentarios[$CuentaComentarios]['TipoComentario'] . " : " . $Comentarios[$CuentaComentarios]['Comentario'] . " " . $Opciones . br(1);
         }
         
         $this->load->view('helpdesk/EditIncidencia', $Listado);
@@ -213,7 +213,7 @@ class Helpdesk extends CI_Controller
                 
         for($CuentaElementos = 0; $CuentaElementos < count($Elementos); $CuentaElementos++)
         {
-            $Listado['Elementos'] = $Elementos[$CuentaElementos]['TipoElemento'] . " : " . $Elementos[$CuentaElementos]['Elemento'] . br(1);
+            $Listado['Elementos'] .= $Elementos[$CuentaElementos]['TipoElemento'] . " : " . $Elementos[$CuentaElementos]['Elemento'] . br(1);
         }
                 
         $Comentarios = $this->Comentarios->GetComentarios($Incidencia['IdIncidencia']);
@@ -221,7 +221,7 @@ class Helpdesk extends CI_Controller
                 
         for($CuentaComentarios = 0; $CuentaComentarios < count($Comentarios); $CuentaComentarios++)
         {
-            $Listado['Comentarios'] = $Comentarios[$CuentaComentarios]['TipoComentario'] . " : " . $Comentarios[$CuentaComentarios]['Comentario'] . br(1);
+            $Listado['Comentarios'] .= $Comentarios[$CuentaComentarios]['TipoComentario'] . " : " . $Comentarios[$CuentaComentarios]['Comentario'] . br(1);
         }
         
         $this->load->view('helpdesk/Incidencia', $Listado);
@@ -296,9 +296,7 @@ class Helpdesk extends CI_Controller
         for($i = 0;$i < count($Incidencia); $i++)
         {
             $Opciones = '<a href="#" onclick="DelParte(' . $Incidencia[$i]['IdParte'] . ', ' . $IdIncidencia . ')"><i class="icon-remove"></i></a>';
-            $Lista['Objeto'] .= $Incidencia[$i]['TipoParte'] . " : " . $Incidencia[$i]['Parte'] . " " . $Opciones . br(1);
-            
-            
+            $Lista['Objeto'] .= $Incidencia[$i]['TipoParte'] . " : " . $Incidencia[$i]['Parte'] . " " . $Opciones . br(1); 
         }
         $this->load->view('helpdesk/Body', $Lista);
     }
@@ -341,9 +339,9 @@ class Helpdesk extends CI_Controller
         {
             $Opciones = '<a href="#" onclick="DelRemedy(' . $Incidencia[$i]['IdRemedy'] . ', ' . $IdIncidencia . ')"><i class="icon-remove"></i></a>';
             $Lista['Objeto'] .= $Incidencia[$i]['TipoRemedy'] . " : " . $Incidencia[$i]['Remedy'] . " " . $Opciones . br(1);
-            
-            $this->load->view('helpdesk/Body', $Lista);
         }
+        
+        $this->load->view('helpdesk/Body', $Lista);
     }
     
     public function CreaRemedy()
@@ -351,11 +349,11 @@ class Helpdesk extends CI_Controller
         $this->load->model('helpdesk/Remedys','',TRUE);
         $this->load->view('helpdesk/Head');
         
-        $Resultado = $this->Remedys->NewRemedy($_POST['Idincidencia'], $_POST['TipoRemedy'], $_POST['Remedy']);
+        $Resultado = $this->Remedys->NewRemedy($_POST['IdIncidencia'], $_POST['TipoRemedy'], $_POST['Remedy']);
         
         if($Resultado == 0)
         {
-            $this->ActualizaRemedys($_POST['Idincidencia']);
+            $this->ActualizaRemedys($_POST['IdIncidencia']);
         }
         else 
         {
@@ -368,7 +366,7 @@ class Helpdesk extends CI_Controller
         $this->load->model('helpdesk/Remedys','',TRUE);
         $this->load->view('helpdesk/Head');
         
-        $this->Partes->DelRemedy($_POST['IdRemedy']);
+        $this->Remedys->DelRemedy($_POST['IdRemedy']);
         $this->ActualizaRemedys($_POST['IdIncidencia']);
     }
     
@@ -384,9 +382,9 @@ class Helpdesk extends CI_Controller
         {
             $Opciones = '<a href="#" onclick="DelElemento(' . $Incidencia[$i]['IdElemento'] . ', ' . $IdIncidencia . ')"><i class="icon-remove"></i></a>';
             $Lista['Objeto'] .= $Incidencia[$i]['TipoElemento'] . " : " . $Incidencia[$i]['Elemento'] . " " . $Opciones . br(1);
-            
-            $this->load->view('helpdesk/Body', $Lista);
         }
+        
+        $this->load->view('helpdesk/Body', $Lista);
     }
     
     public function CreaElemento()
@@ -394,11 +392,11 @@ class Helpdesk extends CI_Controller
         $this->load->model('helpdesk/Elementos','',TRUE);
         $this->load->view('helpdesk/Head');
         
-        $Resultado = $this->Elementos->NewElemento($_POST['Idincidencia'], $_POST['TipoElemento'], $_POST['Elemento']);
+        $Resultado = $this->Elementos->NewElemento($_POST['IdIncidencia'], $_POST['TipoElemento'], $_POST['Elemento']);
         
         if($Resultado == 0)
         {
-            $this->ActualizaElementos($_POST['Idincidencia']);
+            $this->ActualizaElementos($_POST['IdIncidencia']);
         }
         else 
         {
@@ -427,9 +425,9 @@ class Helpdesk extends CI_Controller
         {
             $Opciones = '<a href="#" onclick="DelComentario(' . $Incidencia[$i]['IdComentario'] . ', ' . $IdIncidencia . ')"><i class="icon-remove"></i></a>';
             $Lista['Objeto'] .= $Incidencia[$i]['TipoComentario'] . " : " . $Incidencia[$i]['Comentario'] . " " . $Opciones . br(1);
-            
-            $this->load->view('helpdesk/Body', $Lista);
         }
+        
+        $this->load->view('helpdesk/Body', $Lista);
     }
     
     public function CreaComentario()
@@ -437,11 +435,11 @@ class Helpdesk extends CI_Controller
         $this->load->model('helpdesk/Comentarios','',TRUE);
         $this->load->view('helpdesk/Head');
         
-        $Resultado = $this->Comentarios->NewComentario($_POST['Idincidencia'], $_POST['TipoComentario'], $_POST['Comentario']);
+        $Resultado = $this->Comentarios->NewComentario($_POST['IdIncidencia'], $_POST['TipoComentario'], $_POST['Comentario']);
         
         if($Resultado == 0)
         {
-            $this->ActualizaComentarios($_POST['Idincidencia']);
+            $this->ActualizaComentarios($_POST['IdIncidencia']);
         }
         else 
         {
@@ -454,7 +452,7 @@ class Helpdesk extends CI_Controller
         $this->load->model('helpdesk/Comentarios','',TRUE);
         $this->load->view('helpdesk/Head');
         
-        $this->Comentarios->DelComentario($_POST['IdElemento']);
+        $this->Comentarios->DelComentario($_POST['IdComentario']);
         $this->ActualizaComentarios($_POST['IdIncidencia']);
     }
 }

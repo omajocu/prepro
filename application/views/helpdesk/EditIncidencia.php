@@ -27,7 +27,7 @@
                 </div>
                 <div class="span3" style="background-color: #fff; height: 100%; padding: 3px;">
                     Elemento
-                    <a href="#" onclick="NewElemeto(<?php echo $IdIncidencia; ?>)"><i class="icon-plus"></i></a>
+                    <a href="#" onclick="NewElemento(<?php echo $IdIncidencia; ?>)"><i class="icon-plus"></i></a>
                 </div>
                 <div class="span6" style="background-color: #fff; height: 100%; padding: 3px;">
                     Problema

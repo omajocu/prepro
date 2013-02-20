@@ -249,7 +249,7 @@ function GuardaRemedy(IdIncidencia)
     (
         {
             data:  parametros,
-            url:   'http://localhost/prepro/index.php/Helpdesk/CreaParte',
+            url:   'http://localhost/prepro/index.php/Helpdesk/CreaRemedy',
             type:  'post',
             beforeSend: function () 
             {
@@ -318,7 +318,7 @@ function NewElemento(IdIncidencia)
             show: "fold",
             hide: "fold"    
         }
-    );                    
+    ); 
 }
 
 function GuardaElemento(IdIncidencia)
@@ -337,7 +337,7 @@ function GuardaElemento(IdIncidencia)
     (
         {
             data:  parametros,
-            url:   'http://localhost/prepro/index.php/Helpdesk/CreaParte',
+            url:   'http://localhost/prepro/index.php/Helpdesk/CreaElemento',
             type:  'post',
             beforeSend: function () 
             {
@@ -347,13 +347,13 @@ function GuardaElemento(IdIncidencia)
             {
                 $("#Elementos"+IdIncidencia).html(response);
                 $("#TipoElemento"+IdIncidencia).prop("selectedIndex",999);
-                $("#Elelemwnto"+IdIncidencia).val("");
+                $("#Elelemento"+IdIncidencia).val("");
             }
         }
     );
 }
 
-function DelElemento(IdElelemto, IdIncidencia)
+function DelElemento(IdElemento, IdIncidencia)
 {
     var parametros = 
     {
@@ -365,7 +365,7 @@ function DelElemento(IdElelemto, IdIncidencia)
     (
         {
             data:  parametros,
-            url:   'http://localhost/prepro/index.php/Helpdesk/BorraRemedy',
+            url:   'http://localhost/prepro/index.php/Helpdesk/BorraElemento',
             type:  'post',
             beforeSend: function () 
             {
@@ -411,8 +411,8 @@ function NewComentario(IdIncidencia)
 
 function GuardaComentario(IdIncidencia)
 {    
-    var TipoComentario = $("#TipoComentario"+IdIncidencia).find(':selected').val();
-    var Comentario = $("#Comentario"+IdIncidencia).val(); 
+    var TipoComentario = 1;
+    var Comentario = $("#Comentario"+IdIncidencia).val();
     
     var parametros = 
     {
@@ -425,7 +425,7 @@ function GuardaComentario(IdIncidencia)
     (
         {
             data:  parametros,
-            url:   'http://localhost/prepro/index.php/Helpdesk/CreaParte',
+            url:   'http://localhost/prepro/index.php/Helpdesk/CreaComentario',
             type:  'post',
             beforeSend: function () 
             {
@@ -453,7 +453,7 @@ function DelComentario(IdComentario, IdIncidencia)
     (
         {
             data:  parametros,
-            url:   'http://localhost/prepro/index.php/Helpdesk/BorraRemedy',
+            url:   'http://localhost/prepro/index.php/Helpdesk/BorraComentario',
             type:  'post',
             beforeSend: function () 
             {
@@ -617,3 +617,9 @@ function nueva_incidencia()
             }
         );
 }
+
+
+
+tinyMCE.init({
+        mode : "textareas"
+});

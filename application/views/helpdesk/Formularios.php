@@ -41,13 +41,13 @@
     <br/>
 </div>
 
-<div id="NuevoElemento" name="NuevoElemento<?php echo $IdIncidencia; ?>" title="Nuevo Elemento<?php echo $IdIncidencia; ?>" style="display: none;">
+<div id="NuevoElemento<?php echo $IdIncidencia; ?>" name="NuevoElemento<?php echo $IdIncidencia; ?>" title="Nuevo Elemento" style="display: none;">
     <fieldset>
     <legend>Servicio Afectado</legend>
     <div class="grid">
         <div class="row">    
             <div class="span3">
-                <div id="Elemento" class="input-control select" style="width: 200px;">
+                <div id="NuevoTipoElemento" class="input-control select" style="width: 200px;">
                     <?php
                         echo $TipoElemento;
                     ?>
@@ -64,7 +64,7 @@
     <br/>
 </div>
 
-<div id="NuevoComentario" name="NuevoComentario<?php echo $IdIncidencia; ?>" title="Nuevo Comentario<?php echo $IdIncidencia; ?>" style="display: none;">
+<div id="NuevoComentario<?php echo $IdIncidencia; ?>" name="NuevoComentario<?php echo $IdIncidencia; ?>" title="Nuevo Comentario" style="display: none;">
     <fieldset>
     <legend>Descripcin del Problema</legend>
     <div class="span13">
