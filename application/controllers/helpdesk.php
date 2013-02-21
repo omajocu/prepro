@@ -89,8 +89,8 @@ class Helpdesk extends CI_Controller
         }
             
         $IncidenciasAll ['ListadoAreas'] =  form_dropdown('Areas', $this->Areas->GetAreas(), '999', 'id="Areas"');
-        $IncidenciasAll ['TipoRemedy']= form_dropdown('tiporemedy', $this->Remedys->GetTiporemedy(),'1', 'id="tiporemedy"');
-        $IncidenciasAll ['TipoElemento'] = form_dropdown('tipoelemento', $this->Elementos->GetTipoElemento(),'999', 'id="tipoelemento"');        
+        $IncidenciasAll ['TipoRemedy']= form_dropdown('TipoRemedy', $this->Remedys->GetTiporemedy(),'1', 'id="TipoRemedy"');
+        $IncidenciasAll ['TipoElemento'] = form_dropdown('TipoElemento', $this->Elementos->GetTipoElemento(),'999', 'id="TipoElemento"');        
             
         $this->load->view('helpdesk/Footer', $IncidenciasAll);
     }
@@ -230,13 +230,127 @@ class Helpdesk extends CI_Controller
     
     public function BorraIncidencia()
     {
+        $this->load->model('helpdesk/Comentarios','',TRUE);
+        $this->load->model('helpdesk/Elementos','',TRUE);
         $this->load->model('helpdesk/Incidencias','',TRUE);
+        $this->load->model('helpdesk/Partes','',TRUE);
+        $this->load->model('helpdesk/Remedys','',TRUE);
         
         $this->Incidencias->DelIncidencia($_POST['IdIncidencia']);
+        $this->Partes->DelPartes($_POST['IdIncidencia']);
+        $this->Remedys->DelRemedys($_POST['IdIncidencia']);
+        $this->Elementos->DelElementos($_POST['IdIncidencia']);
+        $this->Comentarios->DelComentarios($_POST['IdIncidencia']);
         
         echo"";
     }
     
+    public function CreaIncidencia()
+    {
+        $this->load->model('helpdesk/Areas','',TRUE);
+        $this->load->model('helpdesk/Servicios','',TRUE);
+        $this->load->model('helpdesk/Aplicaciones','',TRUE);
+        $this->load->model('helpdesk/Comentarios','',TRUE);
+        $this->load->model('helpdesk/Elementos','',TRUE);
+        $this->load->model('helpdesk/Estado','',TRUE);
+        $this->load->model('helpdesk/Incidencias','',TRUE);
+        $this->load->model('helpdesk/Partes','',TRUE);
+        $this->load->model('helpdesk/Remedys','',TRUE);
+        
+        
+        $IdNuevaIncidencia = $this->Incidencias->NewIncidencia($_POST['Area'], $_POST['Servicio'], $_POST['Aplicacion'], $_POST['Estado']);
+        $this->Partes->NewParte($IdNuevaIncidencia, $_POST['TipoParte'], $_POST['Parte']);
+        $this->Remedys->NewRemedy($IdNuevaIncidencia, $_POST['TipoRemedy'], $_POST['Remedy']);
+        $this->Elementos->NewElemento($IdNuevaIncidencia, $_POST['TipoElemento'], $_POST['Elemento']);
+        $this->Comentarios->NewComentario($IdNuevaIncidencia, $_POST['TipoComentario'], $_POST['Comentario']);
+       
+        //pulir el final
+        $this->RefrescaListado();
+    }
+    
+    public function RefrescaListado()
+    {
+        $this->load->model('helpdesk/Areas','',TRUE);
+        $this->load->model('helpdesk/Servicios','',TRUE);
+        $this->load->model('helpdesk/Aplicaciones','',TRUE);
+        $this->load->model('helpdesk/Comentarios','',TRUE);
+        $this->load->model('helpdesk/Elementos','',TRUE);
+        $this->load->model('helpdesk/Estado','',TRUE);
+        $this->load->model('helpdesk/Incidencias','',TRUE);
+        $this->load->model('helpdesk/Partes','',TRUE);
+        $this->load->model('helpdesk/Remedys','',TRUE);
+        
+        $this->load->view('helpdesk/Head');
+        
+        $Incidencias = $this->Incidencias->GetAllIncidencias(1);
+       
+        If(count($Incidencias)!= 0)
+        {
+            for($Contador = 0; $Contador<count($Incidencias); $Contador++)
+            {
+                $Listado['debug'] = $Incidencias[$Contador]['IdIncidencia'];
+                
+                $Listado['IdIncidencia'] = $Incidencias[$Contador]['IdIncidencia'];
+                $Listado['FechaApertura'] = $Incidencias[$Contador]['FechaApertura'];
+                $Listado['Area'] = $this->Areas->GetAreaById($Incidencias[$Contador]['IdArea']);
+                $Listado['Servicio'] = $this->Servicios->GetServicioById($Incidencias[$Contador]['IdServicio']);
+                $Listado['Aplicacion'] = $this->Aplicaciones->GetAplicacionById($Incidencias[$Contador]['IdAplicacion']);
+                $Listado['Estado'] = $this->Estado->GetEstadoById($Incidencias[$Contador]['IdEstado']);
+                
+                $Partes = $this->Partes->GetPartes($Incidencias[$Contador]['IdIncidencia']);
+                
+                $Listado['Partes'] ="";
+                
+                for($CuentaPartes = 0; $CuentaPartes < count($Partes); $CuentaPartes++)
+                {
+                    $Listado['Partes'] .= $Partes[$CuentaPartes]['TipoParte'] . " : " . $Partes[$CuentaPartes]['Parte'] . br(1);
+                }
+                
+                $Remedys = $this->Remedys->GetRemedys($Incidencias[$Contador]['IdIncidencia']);
+                
+                $Listado['Remedys']="";
+                
+                for($CuentaRemedys = 0; $CuentaRemedys < count($Remedys); $CuentaRemedys++)
+                {
+                    $Listado['Remedys'] .= $Remedys[$CuentaRemedys]['TipoRemedy'] . " : " . $Remedys[$CuentaRemedys]['Remedy'] . br(1);
+                }
+                
+                $Elementos = $this->Elementos->GetElementos($Incidencias[$Contador]['IdIncidencia']);
+                
+                $Listado['Elementos']="";
+                
+                for($CuentaElementos = 0; $CuentaElementos < count($Elementos); $CuentaElementos++)
+                {
+                    $Listado['Elementos'] .= $Elementos[$CuentaElementos]['TipoElemento'] . " : " . $Elementos[$CuentaElementos]['Elemento'] . br(1);
+                }
+                
+                $Comentarios = $this->Comentarios->GetComentarios($Incidencias[$Contador]['IdIncidencia']);
+                
+                $Listado['Comentarios']="";
+                
+                for($CuentaComentarios = 0; $CuentaComentarios < count($Comentarios); $CuentaComentarios++)
+                {
+                    $Listado['Comentarios'] .= $Comentarios[$CuentaComentarios]['TipoComentario'] . " : " . $Comentarios[$CuentaComentarios]['Comentario'] . br(1);
+                }
+                
+                $this->load->view('helpdesk/Incidencia', $Listado);
+            }
+        }
+        else
+        {
+            $Warning['Texto'] = "No hay incidencia abiertas. ";
+            
+            $this->load->view('helpdesk/Warning', $Warning);
+        }
+            
+        $IncidenciasAll ['ListadoAreas'] =  form_dropdown('Areas', $this->Areas->GetAreas(), '999', 'id="Areas"');
+        $IncidenciasAll ['TipoRemedy']= form_dropdown('TipoRemedy', $this->Remedys->GetTiporemedy(),'1', 'id="TipoRemedy"');
+        $IncidenciasAll ['TipoElemento'] = form_dropdown('TipoElemento', $this->Elementos->GetTipoElemento(),'999', 'id="TipoElemento"');        
+            
+        $this->load->view('helpdesk/Footer', $IncidenciasAll);
+    }
+
+
     public function GetListaServicios()
     {
         $this->load->model('helpdesk/Servicios','',TRUE);

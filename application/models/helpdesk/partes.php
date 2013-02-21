@@ -60,7 +60,24 @@ class Partes extends CI_Model
         return $Salida;
     }
     
-    
+    function DelPartes($IdIncidencia)
+    {
+        $SQL = 'DELETE FROM  
+                        inc_parte 
+                WHERE 
+                        id_incidencia ='.$IdIncidencia.'';
+                        
+        $this->db->query($SQL);
+        
+        $Salida = 0;
+        
+        if($this->db->affected_rows() != 1)
+        {
+            $Salida = "Error al borrar el parte. ";
+        }
+        
+        return $Salida;
+    }
     
     function GetPartes($IdIncidencia)
     {

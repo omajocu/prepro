@@ -59,6 +59,25 @@ class Comentarios extends CI_Model
         return $Salida;
     }
     
+    function DelComentarios($IdIncidencia)
+    {
+        $SQL = 'DELETE FROM  
+                        inc_comentarios 
+                WHERE 
+                        id_incidencia ='.$IdIncidencia.'';
+                        
+        $this->db->query($SQL);  
+        
+        $Salida = 0;
+        
+        if($this->db->affected_rows() != 1)
+        {
+            $Salida = "Error al borrar el Comentario. ";
+        }
+        
+        return $Salida;
+    }
+    
     function GetComentarios($IdIncidencia)
     {
         $SQL ="SELECT 

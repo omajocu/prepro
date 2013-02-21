@@ -467,6 +467,90 @@ function DelComentario(IdComentario, IdIncidencia)
     );
 }
 
+function NuevaIncidencia()
+{
+       $("#NuevaIncidencia").dialog
+    (
+        {
+            modal: true,
+            width: 800,
+            minWidth: 400,
+            maxWidth: 900,
+            buttons: 
+            {
+                "Ok": 
+                    function()
+                    {
+                        GuardaIncidencia();
+                        $(this).dialog("destroy");
+                    },
+                    
+                "Cancelar": 
+                    function()
+                    {
+                        $(this).dialog("destroy");
+                    }
+            },
+            show: "fold",
+            hide: "fold"    
+        }
+    );  
+}
+
+function GuardaIncidencia()
+{
+   var Area = $("#Areas").find(':selected').val();
+   var Servicio = $("#Servicios").find(':selected').val();
+   var Aplicacion = $("#Aplicaciones").find(':selected').val();
+   
+   var Estado = '1';
+   
+   var TipoParte = $("#TipoParte").find(':selected').val();
+   var Parte = $("#NumeroParte").val();
+   
+   var TipoRemedy = $("#TipoRemedy").find(':selected').val();
+   var Remedy = $("#NumeroRemedy").val();
+   
+   var TipoElemento = $("#TipoElemento").find(':selected').val();
+   var Elemento = $("#NumeroElemento").val();
+     
+   var TipoComentario = '0';
+   var Comentario = $("#NuevoComentario").val();
+     
+   var parametros = 
+    {
+        "Area" : Area,
+        "Servicio" : Servicio,
+        "Aplicacion" : Aplicacion,
+        "Estado" : Estado,
+        "TipoParte" : TipoParte,
+        "Parte" : Parte,
+        "TipoRemedy" : TipoRemedy,
+        "Remedy" : Remedy,
+        "TipoElemento" : TipoElemento,
+        "Elemento" : Elemento,
+        "TipoComentario" : TipoComentario,
+        "Comentario" : Comentario
+    };
+    
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/CreaIncidencia',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#Listado").html("Cargando, espere por favor...");
+            },
+            success:  function (response) 
+            {
+                $("#Listado").html(response);
+            }
+        }
+    );
+}
+
 function EditaIncidencia(IdIncidencia)
 {    
     var parametros = 
@@ -547,79 +631,8 @@ function DelIncidencia(IdIncidencia)
     }
 }
 
-function enviar_nueva()
-{
-   var Area = $("#areas").find(':selected').val();
-   var Servicio = $("#servicios").find(':selected').val();
-   var Aplicacion = $("#aplicaciones").find(':selected').val();
-   
-   var Estado = '1';
-   
-   var Tipoparte = $("#tipoparte").find(':selected').val();
-   var Parte = $("#numparte").val();
-   
-   var Tiporemedy = $("#tipo_remedy").find(':selected').val();
-   var Remedy = $("#numremedy").val();
-   
-   var Tipoelemento = $("#tipo_elemento").find(':selected').val();
-   var Elemento = $("#numelemento").val();
-     
-   var Tipocomentario = '0';
-   var Comentario = $("#comentario").val();
-   
-   $("#nuevainc").dialog( "close" );
-   
-   var parametros = 
-    {
-        "Area" : Area,
-        "Servicio" : Servicio,
-        "Aplicacion" : Aplicacion,
-        "Estado" : Estado,
-        "Tipoparte" : Tipoparte,
-        "Parte" : Parte,
-        "Tiporemedy" : Tiporemedy,
-        "Remedy" : Remedy,
-        "Tipoelemento" : Tipoelemento,
-        "Elemento" : Elemento,
-        "Tipocomentario" : Tipocomentario,
-        "Comentario" : Comentario
-    };
-    
-    $.ajax
-    (
-        {
-            data:  parametros,
-            url:   'http://localhost/prepro/index.php/incidencias/new_incidencia',
-            type:  'post',
-            beforeSend: function () 
-            {
-                $("#listado").html("Cargando, espere por favor...");
-            },
-            success:  function (response) 
-            {
-                $("#listado").html(response);
-            }
-        }
-    );
-}
-
-function nueva_incidencia()
-{
-        $("#nuevainc").dialog
-        (
-            {
-                modal: true,
-                width: 800,
-                minWidth: 400,
-                maxWidth: 900,
-                show: "fold",
-                hide: "scale"
-            }
-        );
-}
 
 
 
-tinyMCE.init({
-        mode : "textareas"
-});
+
+

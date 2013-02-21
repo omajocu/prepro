@@ -59,6 +59,25 @@ class Elementos extends CI_Model
         return $Salida;
     }
     
+    function DelElementos($IdIncidencia)
+    {
+        $SQL = 'DELETE FROM  
+                        inc_elementos 
+                WHERE 
+                        id_incidencia ='.$IdIncidencia.'';
+                        
+        $this->db->query($SQL);  
+        
+        $Salida = 0;
+        
+        if($this->db->affected_rows() != 1)
+        {
+            $Salida = "Error al borrar el elemento. ";
+        }
+        
+        return $Salida;
+    }
+    
      function GetElementos($IdIncidencia)
     {
         $SQL ="SELECT

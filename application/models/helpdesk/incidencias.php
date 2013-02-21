@@ -34,14 +34,16 @@ class Incidencias extends CI_Model
         
         $this->db->query($sql);
         
-        if($this->db->affected_rows() != 1)
+        $Salida = $this->db->insert_id();
+        
+        /*if($this->db->affected_rows() != 1)
         {
             $Salida = 0;
         }
         else
         {
             $Salida = $this->db->insert_id();
-        }
+        }*/
         
         return $Salida;
     }

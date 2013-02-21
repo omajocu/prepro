@@ -1,4 +1,5 @@
-          	</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div> 
@@ -40,7 +41,7 @@
                     </div>
                     <div class="span3">
                         <div class="input-control text" style="width: 200px;">
-                            <input name="numparte" id="numparte" type="text"  />
+                            <input name="NuemeroParte" id="NumeroParte" type="text"  />
                         </div>
                     </div>
                	</div>
@@ -59,7 +60,7 @@
                         </div>
                         <div class="span3">
                             <div class="input-control text" style="width: 200px;">
-                 			    <input name="numremedy" id="numremedy" type="text"  />
+                 			    <input name="NumeroRemedy" id="NumeroRemedy" type="text"  />
                             </div>
                  	</div>
                     </div>
@@ -78,7 +79,7 @@
                         </div>
                         <div class="span3">
                             <div class="input-control text" style="width: 200px;">
-                                <input name="numelemnto" id="numelemento" type="text"  />
+                                <input name="NumeroElemento" id="NumeroElemento" type="text"  />
                             </div>
                         </div>
                     </div>
@@ -88,13 +89,10 @@
             <legend>Descripcin del Problema</legend>
                 <div class="span13">
                     <div class="input-control textarea">
-                        <textarea id="nuevocomentario" name="nuevocomentario"></textarea>
+                        <textarea id="NuevoComentario" name="NuevoComentario"></textarea>
                     </div>
                 </div>
         </fieldset>
-        <div class="span3" style="padding: 10px;">
-            <input type="button" value="Guardar" onclick="enviar_nueva()"/>
-       	</div> 
     </div>  
 
 </body>

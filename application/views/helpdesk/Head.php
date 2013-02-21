@@ -7,14 +7,11 @@
 
     <link href="<?php echo base_url(); ?>css/modern.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>css/ui/jquery-ui-1.9.2.custom.css" />
-    <link rel="stylesheet" href="<?php echo base_url(); ?>css/elrte/elrte.min.css" type="text/css" media="screen" charset="utf-8" />
-    
     
     <script type="text/javascript" src="<?php echo base_url(); ?>js/assets/jquery-1.8.2.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>js/modern/dropdown.js"></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>js/tiny_mce/tiny_mce.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>js/assets/jquery-ui-1.9.2.custom.min.js"></script>
-    
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/modern/dropdown.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>js/Helpdesk.js" ></script>
+    
     
 </head>
