@@ -74,3 +74,16 @@
     </div>
     </fieldset>
 </div>
+
+<div id="ActualizaEstado<?php echo $IdIncidencia; ?>" name="ActualizaEstado<?php echo $IdIncidencia; ?>" title="Actualizar Estado" style="display: none;">
+    <fieldset>
+    <legend>Seleccione un nuevo estado</legend>
+    <div class="span3">
+        <div id="NuevoSelectEstado" class="input-control select" style="width: 200px;">
+        <?php
+            echo $CambioEstado;
+        ?>
+        </div>
+    </div>
+    </fieldset>
+</div>

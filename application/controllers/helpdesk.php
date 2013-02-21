@@ -161,8 +161,9 @@ class Helpdesk extends CI_Controller
         $Form['IdIncidencia'] = $Incidencia['IdIncidencia'];
         $Form['TipoParte'] = form_dropdown('TipoParte' . $Incidencia['IdIncidencia'], $this->Partes->GetTipoParte($Incidencia['IdAplicacion']), '999', 'id="TipoParte'.$Incidencia['IdIncidencia'].'"');
         $Form['TipoRemedy'] = form_dropdown('TipoRemedy' . $Incidencia['IdIncidencia'], $this->Remedys->GetTipoRemedy(),'1', 'id="TipoRemedy'.$Incidencia['IdIncidencia'].'"');
-        $Form ['TipoElemento'] = form_dropdown('TipoElemento' . $Incidencia['IdIncidencia'], $this->Elementos->GetTipoElemento(),'999', 'id="TipoElemento'.$Incidencia['IdIncidencia'].'"');
-       
+        $Form['TipoElemento'] = form_dropdown('TipoElemento' . $Incidencia['IdIncidencia'], $this->Elementos->GetTipoElemento(),'999', 'id="TipoElemento'.$Incidencia['IdIncidencia'].'"');
+        $Form['CambioEstado'] = form_dropdown('CambioEstado' . $Incidencia['IdIncidencia'], $this->Estado->GetEstados(), $Incidencia['IdEstado'] , 'id="CambioEstado'.$Incidencia['IdIncidencia'].'"');
+        
         $this->load->view('helpdesk/Formularios', $Form);
         $this->load->view('helpdesk/FooterIncidencia');
     }
@@ -568,6 +569,15 @@ class Helpdesk extends CI_Controller
         
         $this->Comentarios->DelComentario($_POST['IdComentario']);
         $this->ActualizaComentarios($_POST['IdIncidencia']);
+    }
+    
+    public function CambiaEstado()
+    {
+        $this->load->model('helpdesk/Incidencias','',TRUE);
+                
+        $this->Incidencias->CambiaEstado($_POST['IdIncidencia'], $_POST['NuevoEstado']);
+        
+        $this->RefrescaListado();
     }
 }
 

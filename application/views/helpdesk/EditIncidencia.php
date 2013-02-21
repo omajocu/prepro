@@ -15,7 +15,8 @@
             </div>
             <div class="row">
                 <div class="span1" style="background-color: #fff; height: 100%; padding: 3px;">                            
-                    Estado                            
+                    Estado
+                    <a href="#" onclick="CambiaEstado(<?php echo $IdIncidencia; ?>)"><i class="icon-history"></i></a>
                 </div>
                 <div class="span3" style="background-color: #fff; height: 100%; padding: 3px;">
                     Parte

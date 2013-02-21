@@ -157,6 +157,27 @@ class Incidencias extends CI_Model
         return $Listado;
 
     }
+    
+    function CambiaEstado($IdIncidencia, $IdNuevoEstado)
+    {
+        $SQL = "UPDATE 
+                    inc_incidencias
+                SET 
+                    inc_incidencias.estado='".$IdNuevoEstado."'
+                WHERE 
+                    inc_incidencias.id='".$IdIncidencia."'";
+        
+        $this->db->query($SQL);
+       
+        $Salida = 0;
+        
+        if($this->db->affected_rows() != 1)
+        {
+            $Salida = "Error al actualizar el estado. ";
+        }
+        
+        return $Salida;
+    }
 }
 
 ?>

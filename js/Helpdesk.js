@@ -631,6 +631,63 @@ function DelIncidencia(IdIncidencia)
     }
 }
 
+function CambiaEstado(IdIncidencia)
+{        
+    $("#ActualizaEstado"+IdIncidencia).dialog
+    (
+        {
+            modal: true,
+            width: 800,
+            minWidth: 400,
+            maxWidth: 900,
+            buttons: 
+            {
+                "Ok": 
+                    function()
+                    {
+                        GuardaEstado(IdIncidencia);
+                        $(this).dialog("destroy");
+                    },
+                    
+                "Cancelar": 
+                    function()
+                    {
+                        $(this).dialog("destroy");
+                    }
+            },
+            show: "fold",
+            hide: "fold"    
+        }
+    ); 
+}
+
+function GuardaEstado(IdIncidencia)
+{    
+    var NuevoEstado = $("#CambioEstado"+IdIncidencia).find(':selected').val();
+    
+    var parametros = 
+    {
+        "IdIncidencia" : IdIncidencia,
+        "NuevoEstado" : NuevoEstado
+    };
+    
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/CambiaEstado',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#Listado").html("Cargando, espere por favor...");
+            },
+            success:  function (response) 
+            {
+                $("#Listado").html(response);
+            }
+        }
+    );
+}
 
 
 

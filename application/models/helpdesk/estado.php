@@ -55,7 +55,7 @@ class Estado extends CI_Model
         return $Salida;
     }
     
-    function GetEstado()
+    function GetEstados()
     {         
         $SQL = "SELECT 
                     inc_estados.id, 
