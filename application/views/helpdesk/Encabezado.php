@@ -14,7 +14,7 @@
                         </div>
                     </a>
             	</div>
-		<h1>CGP Iberia</h1>
+                <a href="index.php"><h1>CGP Iberia</h1></a>
             </div>
     	</div>
         
@@ -22,12 +22,15 @@
             <div class="span13">
                 <div class="nav-bar">
                     <div class="nav-bar-inner">
-                        <a href="#"><span class="element brand">CGP IBERIA - Gestion de Incidencias</span></a>
+                        <span class="element brand"></i>Gestion de Incidencias</span>
                         <span class="divider"></span>
 
                         <ul class="menu">
-                            <li><a href="#" onclick="NuevaIncidencia()">Nueva Incidencia</a></li>
-                            <li><a href="#">Item 4</a></li>
+                            <li><a href="index.php"><i class="icon-home" title="Inicio"></i></a></li>
+                            <li><a href="#" onclick="NuevaIncidencia()"><i class="icon-plus-2" title="Crear nueva incidencia"></i></a></li>
+                            <li><a href="#" onclick="BuscaCerradas()"><i class="icon-search" title="Realizar busqueda en el historico"></i></a></li>
+                            <li> </li>
+                            <li><a href="#" onclick="Configurar()"><i class="icon-wrench" title="Realizar busqueda en el historico"></i></a></li>
                         </ul>
                     </div>
                 </div>

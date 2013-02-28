@@ -546,6 +546,21 @@ function GuardaIncidencia()
             success:  function (response) 
             {
                 $("#Listado").html(response);
+                
+                $("#Areas").prop("selectedIndex",999);
+                $("#Servicios").prop("selectedIndex",999);
+                $("#Aplicaciones").prop("selectedIndex",999);
+   
+                $("#TipoParte").prop("selectedIndex",999);
+                $("#NumeroParte").val("");
+   
+                $("#TipoRemedy").prop("selectedIndex",1);
+                $("#NumeroRemedy").val("");
+   
+                $("#TipoElemento").prop("selectedIndex",999);
+                $("#NumeroElemento").val("");
+     
+                $("#NuevoComentario").val("");
             }
         }
     );
@@ -689,7 +704,152 @@ function GuardaEstado(IdIncidencia)
     );
 }
 
+function BuscaCerradas()
+{    
+    $.ajax
+    (
+        {
+            url:   'http://localhost/prepro/index.php/Helpdesk/BuscarHistorico',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#Listado").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#Listado").html(response);
+                
+            }
+        }
+    );
+}
 
+function BuscarDatos()
+{    
+    var Area = $("#Areas").find(':selected').val();
+    var Servicio = $("#Servicios").find(':selected').val();
+    var Aplicacion = $("#Aplicaciones").find(':selected').val();
+   
+    var Estado = '1';
+   
+    var TipoParte = $("#TipoParte").find(':selected').val();
+    var Parte = $("#NumeroParte").val();
+   
+    var TipoRemedy = $("#TipoRemedy").find(':selected').val();
+    var Remedy = $("#NumeroRemedy").val();
+   
+    var TipoElemento = $("#TipoElemento").find(':selected').val();
+    var Elemento = $("#NumeroElemento").val();
+     
+    var TipoComentario = '0';
+    var Comentario = $("#NuevoComentario").val();
+    
+    alert("Prueba: \n"+Area+"\n"+Servicio+"\n"+Aplicacion);
+    /*
+    var parametros = 
+    {
+        "IdIncidencia" : IdIncidencia,
+        "NuevoEstado" : NuevoEstado
+    };
+    
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/CambiaEstado',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#Listado").html("Cargando, espere por favor...");
+            },
+            success:  function (response) 
+            {
+                $("#Listado").html(response);
+            }
+        }
+    );*/
+}
 
+$(
+    function() 
+    {
+        $( "#FechaInicio" ).datepicker
+        ({
+            defaultDate: "+1w",
+            changeMonth: false,
+            numberOfMonths: 1,
+            onClose: 
+                function( selectedDate ) 
+                {
+                    $( "#FechaFin" ).datepicker( "option", "minDate", selectedDate );
+                }
+        });
+        $( "#FechaFin" ).datepicker
+        ({
+            defaultDate: "+1w",
+            changeMonth: false,
+            numberOfMonths: 1,
+            onClose: 
+                function( selectedDate ) 
+                {
+                    $( "#FechaInicio" ).datepicker( "option", "maxDate", selectedDate );
+                }
+        });
+    }
+);
+  
+$(
+    function() 
+    {
+        $( "#tabs" ).tabs();
+    }
+);
 
+$(function() 
+    {
+        $( document ).tooltip();
+    });
 
+function TodoOk(Texto) {
+  	var n = noty({
+  		text: Texto,
+  		type: 'success',
+                dismissQueue: true,
+  		layout: 'center',
+                modal: true,
+  		theme: 'defaultTheme'
+  	});
+  }
+  
+function Error(Texto) {
+  	var n = noty({
+  		text: Texto,
+  		type: 'error',
+                dismissQueue: true,
+  		layout: 'center',
+                modal: true,
+  		theme: 'defaultTheme'
+  	});
+  }
+  
+  function Informacion(Texto) {
+  	var n = noty({
+  		text: Texto,
+  		type: 'information',
+                dismissQueue: true,
+  		layout: 'center',
+                modal: true,
+  		theme: 'defaultTheme'
+  	});
+  }
+  
+function Alerta(Texto) {
+  	var n = noty({
+  		text: Texto,
+  		type: 'warning',
+                dismissQueue: true,
+  		layout: 'center',
+                modal: true,
+  		theme: 'defaultTheme'
+  	});
+  }

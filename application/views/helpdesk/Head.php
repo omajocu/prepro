@@ -6,12 +6,15 @@
     <title>CGP IBERIA - Gestin de Incidencias</title>
 
     <link href="<?php echo base_url(); ?>css/modern.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="<?php echo base_url(); ?>css/ui/jquery-ui-1.9.2.custom.css" />
+    <link rel="stylesheet" href="<?php echo base_url(); ?>css/ui/jquery-ui-1.9.2.custom.min.css" />
     
-    <script type="text/javascript" src="<?php echo base_url(); ?>js/assets/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/assets/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>js/assets/jquery-ui-1.9.2.custom.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>js/modern/dropdown.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>js/Helpdesk.js" ></script>
     
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/noty/jquery.noty.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/noty/layouts/center.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>js/noty/themes/default.js"></script>
     
 </head>

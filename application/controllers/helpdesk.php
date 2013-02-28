@@ -579,6 +579,27 @@ class Helpdesk extends CI_Controller
         
         $this->RefrescaListado();
     }
+    
+    public function BuscarHistorico()
+    {
+        $this->load->model('helpdesk/Areas','',TRUE);
+        $this->load->model('helpdesk/Servicios','',TRUE);
+        $this->load->model('helpdesk/Aplicaciones','',TRUE);
+        $this->load->model('helpdesk/Comentarios','',TRUE);
+        $this->load->model('helpdesk/Elementos','',TRUE);
+        $this->load->model('helpdesk/Estado','',TRUE);
+        $this->load->model('helpdesk/Incidencias','',TRUE);
+        $this->load->model('helpdesk/Partes','',TRUE);
+        $this->load->model('helpdesk/Remedys','',TRUE);
+        
+        $this->load->view('helpdesk/Head');
+        
+        $IncidenciasAll ['ListadoAreas'] =  form_dropdown('Areas', $this->Areas->GetAreas(), '999', 'id="Areas"');
+        $IncidenciasAll ['TipoRemedy']= form_dropdown('TipoRemedy', $this->Remedys->GetTiporemedy(),'1', 'id="TipoRemedy"');
+        $IncidenciasAll ['TipoElemento'] = form_dropdown('TipoElemento', $this->Elementos->GetTipoElemento(),'999', 'id="TipoElemento"');        
+            
+        $this->load->view('helpdesk/Busqueda', $IncidenciasAll);
+    }
 }
 
 ?>
