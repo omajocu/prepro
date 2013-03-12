@@ -30,7 +30,8 @@
                             <li><a href="#" onclick="NuevaIncidencia()"><i class="icon-plus-2" title="Crear nueva incidencia"></i></a></li>
                             <li><a href="#" onclick="BuscaCerradas()"><i class="icon-search" title="Realizar busqueda en el historico"></i></a></li>
                             <li> </li>
-                            <li><a href="#" onclick="Configurar()"><i class="icon-wrench" title="Realizar busqueda en el historico"></i></a></li>
+                            <li> </li>
+                            <li><a href="#" onclick="SelecAdmin()"><i class="icon-wrench" title="Administra las categorias"></i></a></li>
                         </ul>
                     </div>
                 </div>

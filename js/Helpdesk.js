@@ -726,11 +726,12 @@ function BuscaCerradas()
 
 function BuscarDatos()
 {    
+    var FechaInicio = $("#FechaInicio").val();
+    var FechaFin = $("#FechaFin").val();
+    
     var Area = $("#Areas").find(':selected').val();
     var Servicio = $("#Servicios").find(':selected').val();
     var Aplicacion = $("#Aplicaciones").find(':selected').val();
-   
-    var Estado = '1';
    
     var TipoParte = $("#TipoParte").find(':selected').val();
     var Parte = $("#NumeroParte").val();
@@ -741,22 +742,30 @@ function BuscarDatos()
     var TipoElemento = $("#TipoElemento").find(':selected').val();
     var Elemento = $("#NumeroElemento").val();
      
-    var TipoComentario = '0';
-    var Comentario = $("#NuevoComentario").val();
     
-    alert("Prueba: \n"+Area+"\n"+Servicio+"\n"+Aplicacion);
-    /*
+    var BuscarPalabra = $("#BuscarPalabra").val();
+    
     var parametros = 
     {
-        "IdIncidencia" : IdIncidencia,
-        "NuevoEstado" : NuevoEstado
+        "FechaInicio" : FechaInicio,
+        "FechaFin" : FechaFin,
+        "Area" : Area,
+        "Servicio" : Servicio,
+        "Aplicacion" : Aplicacion,
+        "TipoParte" : TipoParte,
+        "Parte" : Parte,
+        "TipoRemedy" : TipoRemedy,
+        "Remedy" : Remedy,
+        "TipoElemento" : TipoElemento,
+        "Elemento" : Elemento,
+        "BuscarPalabra" : BuscarPalabra
     };
     
     $.ajax
     (
         {
             data:  parametros,
-            url:   'http://localhost/prepro/index.php/Helpdesk/CambiaEstado',
+            url:   'http://localhost/prepro/index.php/Helpdesk/CreaConsulta',
             type:  'post',
             beforeSend: function () 
             {
@@ -767,8 +776,30 @@ function BuscarDatos()
                 $("#Listado").html(response);
             }
         }
-    );*/
+    );
 }
+
+function SelecAdmin()
+{    
+    $.ajax
+    (
+        {
+            url:   'http://localhost/prepro/index.php/Helpdesk/AdminSelect',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#Listado").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#Listado").html(response);
+                
+            }
+        }
+    );
+}
+
+
 
 $(
     function() 
@@ -778,6 +809,7 @@ $(
             defaultDate: "+1w",
             changeMonth: false,
             numberOfMonths: 1,
+            dateFormat: "yy-mm-dd",
             onClose: 
                 function( selectedDate ) 
                 {
@@ -789,6 +821,7 @@ $(
             defaultDate: "+1w",
             changeMonth: false,
             numberOfMonths: 1,
+            dateFormat: "yy-mm-dd",
             onClose: 
                 function( selectedDate ) 
                 {
@@ -802,6 +835,13 @@ $(
     function() 
     {
         $( "#tabs" ).tabs();
+    }
+);
+    
+    $(
+    function() 
+    {
+        $( "#tabsadmin" ).tabs();
     }
 );
 
@@ -831,8 +871,8 @@ function Error(Texto) {
   		theme: 'defaultTheme'
   	});
   }
-  
-  function Informacion(Texto) {
+ 
+ function Informacion(Texto) {
   	var n = noty({
   		text: Texto,
   		type: 'information',
@@ -853,3 +893,126 @@ function Alerta(Texto) {
   		theme: 'defaultTheme'
   	});
   }
+  
+  function AddArea()
+  {
+      var NuevoArea = $("#AddArea").val();
+      
+      var parametros = 
+    {
+        "NuevoArea" : NuevoArea
+    };
+   
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/CreaArea',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListaAreas").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListaAreas").html(response);
+                $("#AddArea").val("");
+            }
+        }
+    );
+  }
+  
+  function DelArea()
+  {
+      var IdArea = $("#ListaAreas").find(':selected').val();
+      
+      var parametros = 
+    {
+        "IdArea" : IdArea
+    };
+    
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/BorraArea',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListaAreas").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListaAreas").html(response);
+            }
+        }
+    );
+  }
+  
+  $(document).ready
+(
+    function()
+    {
+        $("#ListaAreas").change
+        (
+            function(event)
+            {
+                var IdArea = $("#ListaAreas").find(':selected').val();
+                
+            
+                var parametros = 
+                {
+                    "IdArea" : IdArea
+                    
+                }; 
+    
+                $.ajax
+                (   
+                    {
+                        data:  parametros,
+                        url:   'http://localhost/prepro/index.php/helpdesk/PermisosServicio',
+                        type:  'post',
+                        beforeSend: function () 
+                        {
+                            $("#ListServicios").html("<img src='images/preloader-w8-line-black.gif' />");
+                        },
+                        success:  function (response) 
+                        {
+                            $("#ListServicios").html(response);
+                        }
+                    }
+                );        
+            }
+        );
+    }
+);
+    
+function RefreshParmisoArea()
+{
+    var IdArea = $("#ListaAreas").find(':selected').val();
+    var str = $("#ListServicios").val() || [];
+    str = str.join(",");      
+    
+    var parametros = 
+    {
+        "str" : str,
+        "IdArea" : IdArea
+    };
+    
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/RefrescaArea',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListServicios").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListServicios").html(response);
+            }
+        }
+    );
+}

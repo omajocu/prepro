@@ -87,8 +87,10 @@ class Helpdesk extends CI_Controller
             
             $this->load->view('helpdesk/Warning', $Warning);
         }
-            
-        $IncidenciasAll ['ListadoAreas'] =  form_dropdown('Areas', $this->Areas->GetAreas(), '999', 'id="Areas"');
+        $Lista =  $this->Areas->GetAreas();
+        $Lista [999] = "Selecciona una aplicacion";
+        
+        $IncidenciasAll ['ListadoAreas'] =  form_dropdown('Areas',$Lista , '999', 'id="Areas"');
         $IncidenciasAll ['TipoRemedy']= form_dropdown('TipoRemedy', $this->Remedys->GetTiporemedy(),'1', 'id="TipoRemedy"');
         $IncidenciasAll ['TipoElemento'] = form_dropdown('TipoElemento', $this->Elementos->GetTipoElemento(),'999', 'id="TipoElemento"');        
             
@@ -258,14 +260,12 @@ class Helpdesk extends CI_Controller
         $this->load->model('helpdesk/Partes','',TRUE);
         $this->load->model('helpdesk/Remedys','',TRUE);
         
-        
         $IdNuevaIncidencia = $this->Incidencias->NewIncidencia($_POST['Area'], $_POST['Servicio'], $_POST['Aplicacion'], $_POST['Estado']);
         $this->Partes->NewParte($IdNuevaIncidencia, $_POST['TipoParte'], $_POST['Parte']);
         $this->Remedys->NewRemedy($IdNuevaIncidencia, $_POST['TipoRemedy'], $_POST['Remedy']);
         $this->Elementos->NewElemento($IdNuevaIncidencia, $_POST['TipoElemento'], $_POST['Elemento']);
         $this->Comentarios->NewComentario($IdNuevaIncidencia, $_POST['TipoComentario'], $_POST['Comentario']);
        
-        //pulir el final
         $this->RefrescaListado();
     }
     
@@ -363,8 +363,10 @@ class Helpdesk extends CI_Controller
         }
         else
         {
+            $Lista = $this->Servicios->GetServicios($_POST['IdArea']);
+            $Lista[999] = "Seleciona un Servicio";
             
-            echo form_dropdown('Servicios', $this->Servicios->GetServicios($_POST['IdArea']), '999', 'id="servicios"'); 
+            echo form_dropdown('Servicios', $Lista, '999', 'id="servicios"'); 
         }
     }
     
@@ -375,7 +377,10 @@ class Helpdesk extends CI_Controller
     
         If($_POST['IdArea'] != 999 && $_POST['IdServicio'] != 999)
         {
-            echo form_dropdown('Aplicaciones', $this->Aplicaciones->GetAplicaciones($_POST['IdArea'],$_POST['IdServicio']), '999', 'id="Aplicaciones"');
+            $Lista = $this->Aplicaciones->GetAplicaciones($_POST['IdArea'],$_POST['IdServicio']);
+            $Lista[999] = "Seleciona Una Aplicacion";
+            
+            echo form_dropdown('Aplicaciones', $Lista , '999', 'id="Aplicaciones"');
         }
         else
         {
@@ -599,6 +604,219 @@ class Helpdesk extends CI_Controller
         $IncidenciasAll ['TipoElemento'] = form_dropdown('TipoElemento', $this->Elementos->GetTipoElemento(),'999', 'id="TipoElemento"');        
             
         $this->load->view('helpdesk/Busqueda', $IncidenciasAll);
+    }
+    
+    public function CreaConsulta()
+    {
+        if($_POST['FechaInicio'] != "" && $_POST['FechaFin'] != "")
+        {
+            $ConsultaFecha = "fecha_apertura=" . $_POST['FechaInicio'] . " AND fecha_cierre=". $_POST['FechaFin'];
+        }
+        
+        if($_POST['Area'] != 999)
+        {
+            $ConsultaTipo = "inc_area.id=" . $_POST['Area'];
+            
+            if($_POST['Servicio'] != 999)
+            {
+                $ConsultaTipo .= " AND inc_servicio.id=" . $_POST['Servicio'];
+                
+                if($_POST['Aplicacion'] != 999)
+                {
+                    $ConsultaTipo .= " AND inc_aplicacion.id=" . $_POST['Aplicacion'];
+                    
+                    if ($_POST['TipoParte'] != 999)
+                    {
+                        $ConsultaTipo .= " AND inc_parte.tipo=" . $_POST['TipoParte'];
+                        
+                        if ($_POST['Parte'] != "")
+                        {
+                            $ConsultaTipo .= " AND inc_parte.numero_parte=" . $_POST['Parte'];
+                        }
+                    }
+                }
+            }
+        } 
+        
+        if($_POST['Remedy'] != "")
+        {
+           $ConsultaRemedy = "tipo_remedy=". $_POST['TipoRemedy'] ." AND inc_remedys.remedy=" . $_POST['Remedy'];
+        }
+        
+        if($_POST['TipoElemento'] != 999)
+        {
+            $ConsultaElemento = "tipo_elemento=" . $_POST['TipoElemento'];
+            
+            if($_POST['Elemento'] != "")
+            {
+                $ConsultaElemento .= " AND inc_elemento.elemento=" . $_POST['Elemento'];
+            }
+        }
+        
+        $Consulta = "";
+        
+        if (isset($ConsultaFecha) || isset($ConsultaTipo) || isset($ConsultaRemedy) || isset($ConsultaElemento))
+        {
+            $Consulta = " WHERE ";
+            
+            if(isset($ConsultaFecha))
+            {
+                $Consulta .= $ConsultaFecha;
+                
+                if(isset($ConsultaTipo))
+                {
+                    $Consulta .= " AND " . $ConsultaTipo;
+                }
+                
+                if(isset($ConsultaRemedy))
+                {
+                    $Consulta .= " AND " . $ConsultaRemedy;
+                }
+                
+                if(isset($ConsultaElemento))
+                {
+                    $Consulta .= " AND " . $ConsultaElemento;
+                }
+            }
+            else 
+            {
+                if(isset($ConsultaTipo))
+                {
+                    $Consulta = $ConsultaTipo;
+                    
+                    if(isset($ConsultaRemedy))
+                    {
+                        $Consulta .= " AND " . $ConsultaRemedy;
+                    }
+                    
+                    if(isset($ConsultaElemento))
+                    {
+                        $Consulta .= " AND " . $ConsultaElemento;
+                    }
+                }
+                else
+                {
+                    if(isset($ConsultaRemedy))
+                    {
+                        $Consulta = $ConsultaRemedy;
+                    
+                        if(isset($ConsultaElemento))
+                        {
+                            $Consulta .= " AND " . $ConsultaElemento;
+                        }
+                    }
+                    else
+                    {
+                        if(isset($ConsultaElemento))
+                        {
+                            $Consulta = $ConsultaElemento;
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        echo $Consulta;
+        
+    }
+    
+    public function AdminSelect()
+    {
+        $this->load->model('helpdesk/Areas','',TRUE);
+        $this->load->model('helpdesk/Servicios','',TRUE);
+        $this->load->model('helpdesk/Aplicaciones','',TRUE);
+        $this->load->model('helpdesk/Elementos','',TRUE);
+        $this->load->model('helpdesk/Partes','',TRUE);
+        $this->load->model('helpdesk/Remedys','',TRUE);
+        
+        $this->load->view('helpdesk/Head');
+        
+        $Listado = $this->Areas->GetAreas();
+        $Listado[999] = "Seleciona un Area";
+        $Datos['ListadoAreas'] =  form_dropdown('ListaAreas', $Listado, '999', 'id="ListaAreas"');
+        
+        $Listado = $this->Servicios->GetServiciosAll();
+        $Listado[999] = "Seleciona un Servicio";
+        $Datos['ListadoServicios'] =  form_dropdown('ListaServicios', $Listado, '999', 'id="ListaServicios"');
+        
+        $Listado = $this->Aplicaciones->GetAplicacionesAll();
+        $Listado[999] = "Selecciona una aplicacion";
+        $Datos['ListadoAplicaciones'] = form_dropdown('ListaApp', $Listado, '999', 'id="ListaApp"');
+        
+        $Datos['ListadoPartes'] = form_dropdown('ListaPartes', $this->Partes->GetTipoParteAll(), '', 'id="ListaPartes" multiple size="6"');
+        $Datos['ListadoRemedy'] = form_dropdown('ListaRemedy', $this->Remedys->GetTipoRemedy(), '', 'id="ListaRemedy" multiple size="6"');
+        $Datos['ListadoElementos'] = form_dropdown('ListaElementos', $this->Elementos->GetTipoElemento(), '', 'id="ListaElementos" multiple size="6"');
+        
+        $this->load->view('helpdesk/AdminSelect', $Datos);
+    }
+    
+    public function CreaArea()
+    {
+        $this->load->model('helpdesk/Areas','',TRUE);
+        
+        $this->Areas->NewArea($_POST['NuevoArea']);
+        
+        echo form_dropdown('ListaAreas', $this->Areas->GetAreas(), '999', 'id="ListaAreas"');
+    }
+    
+    public function BorraArea()
+    {
+        $this->load->model('helpdesk/Areas','',TRUE);
+        
+        $this->Areas->DelArea($_POST['IdArea']);
+        
+        echo form_dropdown('ListaAreas', $this->Areas->GetAreas(), '999', 'id="ListaAreas"');
+    }
+    
+    public function RefrescaArea()
+    {
+        $this->load->model('helpdesk/Servicios','',TRUE);
+        
+        $this->Servicios->PermisosArea($_POST['IdArea'],explode(',',$_POST['str']));
+        
+        echo form_dropdown('ListServicios', $this->Servicios->GetServiciosAll(), array_keys($this->Servicios->GetServicios($_POST['IdArea'])), 'id="ListServicios" multiple size="6"');
+    }
+    
+    public function PermisosServicio()
+    {
+        $this->load->model('helpdesk/Servicios','',TRUE);
+        
+        echo form_dropdown('ListServicios', $this->Servicios->GetServiciosAll(), array_keys($this->Servicios->GetServicios($_POST['IdArea'])), 'id="ListServicios" multiple size="6"');
+    }
+    
+    public function CreaServicio()
+    {
+        $this->load->model('helpdesk/Servicios','',TRUE);
+        
+        $this->Servicios->NewServicio($_POST['NuevoServicio']);
+        
+        echo form_dropdown('ListaServicios', $this->Servicios->GetServicios(), '999', 'id="ListaServicios"');
+    }
+    
+    public function BorraServicio()
+    {
+        $this->load->model('helpdesk/Servicios','',TRUE);
+        
+        $this->Servicios->DelServicio($_POST['IdServicio']);
+        
+        echo form_dropdown('ListaServicios', $this->Servicios->GetServicios(), '999', 'id="ListaServicios"');
+    }
+    
+    public function RefrescaServicio()
+    {
+        $this->load->model('helpdesk/Aplicaciones','',TRUE);
+        
+        $this->Aplicaciones->PermisosServicios($_POST['IdServicio'],explode(',',$_POST['str']));
+        
+        echo form_dropdown('ListAplicaciones', $this->Aplicaciones->GetAplicacionesAll(), array_keys($this->Aplicaciones->GetAplicaciones($_POST['IdArea'])), 'id="ListAplicaciones" multiple size="6"');
+    }
+    
+    public function PermisosAplicacion()
+    {
+        $this->load->model('helpdesk/Aplicaciones','',TRUE);
+        
+        echo form_dropdown('ListAplicaciones', $this->Aplicaciones->GetAplicacionesAll(), array_keys($this->Aplicaciones->GetAplicaciones($_POST['IdArea'])), 'id="ListAplicaciones" multiple size="6"');
     }
 }
 

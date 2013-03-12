@@ -65,7 +65,7 @@ class Areas extends CI_Model
         
         $query = $this->db->query($SQL);
         
-        $Listado['999'] = "Seleccione area";
+        $Listado="";
         
         if ($query->num_rows() > 0)
         {

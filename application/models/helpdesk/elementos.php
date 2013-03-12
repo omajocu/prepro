@@ -170,7 +170,7 @@ class Elementos extends CI_Model
         
         $query = $this->db->query($SQL);
         
-        $Listado['999'] = "Seleccione elemto";
+        $Listado="";
         
         if ($query->num_rows() > 0)
         {

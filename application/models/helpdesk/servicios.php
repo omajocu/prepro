@@ -70,7 +70,7 @@ class Servicios extends CI_Model
         
         $query = $this->db->query($SQL);
         
-        $Listado['999'] = "Seleccione servicio";
+        $Listado="";
         
         if ($query->num_rows() > 0)
         {
@@ -81,7 +81,7 @@ class Servicios extends CI_Model
         }
         else 
         {
-            $Listado = array('1' => 'Error');
+            $Listado = array('0' => 'Error');
         }
         
         return $Listado;
@@ -112,6 +112,63 @@ class Servicios extends CI_Model
         
         return $Salida;
     }
+    
+    function GetServiciosAll()
+    {         
+        $SQL = "SELECT 
+                    inc_servicio.id, 
+                    inc_servicio.servicio 
+                FROM 
+                    inc_servicio ";
+        
+        $query = $this->db->query($SQL);
+        
+        $Listado="";
+        
+        if ($query->num_rows() > 0)
+        {
+            foreach ($query->result() as $row)
+            {
+                $Listado[$row->id] = $row->servicio;
+            }
+        }
+        else 
+        {
+            $Listado = array('1' => 'Error');
+        }
+        
+        return $Listado;
+    }
+    
+    function PermisosArea($IdArea, $Selecionados)
+    {
+        $Acumulado = 0;
+        
+        $SQL = "UPDATE 
+                    inc_servicio 
+                SET 
+                    inc_servicio.id_area = 0 
+                WHERE 
+                    inc_servicio.id_area=".$IdArea;
+        
+        $this->db->query($SQL);
+        
+        for($Contador = 0 ; $Contador < count($Selecionados) ; $Contador++)
+        {
+            $SQL = "UPDATE 
+                        inc_servicio 
+                    SET 
+                        inc_servicio.id_area=".$IdArea."
+                    WHERE 
+                        inc_servicio.id=".$Selecionados[$Contador];
+            
+            $query = $this->db->query($SQL);
+            
+            
+        }
+         
+        
+     }
 }
 
 ?>

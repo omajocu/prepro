@@ -14,25 +14,31 @@ class Incidencias extends CI_Model
 {
     function NewIncidencia($IdArea, $IdServicio, $IdAplicacion, $IdEstado)
     {
+        $Fecha = time();
+        $Dia = date("Y-m-d", $Fecha);
+        $Hora = date("H:i:s", $Fecha);
         
-        
-        $sql = "INSERT INTO 
+        $SQL = "INSERT INTO 
                     `inc_incidencias`
                     (
                         `area`, 
                         `servicio`, 
                         `aplicacion`, 
-                        `estado` 
+                        `estado`,
+                        `fecha_apertura`,
+                        `hora_apertura`
                      ) 
                 VALUES 
                      (
                         '".$IdArea."', 
                         '".$IdServicio."', 
                         '".$IdAplicacion."', 
-                        '".$IdEstado."'
+                        '".$IdEstado."',
+                        '".$Dia."',
+                        '".$Hora."'
                       )";
         
-        $this->db->query($sql);
+        $this->db->query($SQL);
         
         $Salida = $this->db->insert_id();
         

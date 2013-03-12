@@ -84,7 +84,7 @@ class Aplicaciones extends CI_Model
         
         $query = $this->db->query($SQL);
         
-        $Listado['999'] = "Seleccione aplicacion";
+        $Listado="";
         
         if ($query->num_rows() > 0)
         {
@@ -126,6 +126,62 @@ class Aplicaciones extends CI_Model
         
         return $Salida;
     }
+    
+    function GetAplicacionesAll()
+    {         
+        $SQL = "SELECT 
+                    inc_aplicacion.id, 
+                    inc_aplicacion.aplicacion
+                FROM 
+                    inc_aplicacion";
+        
+        $query = $this->db->query($SQL);
+        
+        $Listado="";
+        
+        if ($query->num_rows() > 0)
+        {
+            foreach ($query->result() as $row)
+            {
+                $Listado[$row->id] = $row->aplicacion;
+            }
+        }
+        else 
+        {
+            $Listado = array('1' => 'Error');
+        }
+        
+        return $Listado;
+    }
+    
+    function PermisosServicios($IdServicio, $Selecionados)
+    {
+      
+        $SQL = "UPDATE 
+                    inc_aplicacion 
+                SET 
+                    inc_aplicacion.id_servicio = 0 
+                WHERE 
+                    inc_aplicacion.id_servicio=".$IdServicio;
+        
+        $this->db->query($SQL);
+        
+        for($Contador = 0 ; $Contador < count($Selecionados) ; $Contador++)
+        {
+            $SQL = "UPDATE 
+                        inc_aplicacion 
+                    SET 
+                        inc_aplicacion.id_servicio =".$IdServicio." 
+                    WHERE 
+                        inc_aplicacion.id=".$Selecionados[$Contador];
+            
+            $query = $this->db->query($SQL);
+            
+            
+        }
+         
+        
+     }
 }
 
 ?>

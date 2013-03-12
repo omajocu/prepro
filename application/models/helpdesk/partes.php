@@ -178,7 +178,35 @@ class Partes extends CI_Model
         
         $query = $this->db->query($SQL);
         
-        $Listado['999'] = "Seleccione Tipo";
+        $Listado="";
+        
+        if ($query->num_rows() > 0)
+        {
+            foreach ($query->result() as $row)
+            {
+                $Listado[$row->id] = $row->tipo_parte;
+            }
+        }
+        else 
+        {
+            $Listado = array('1' => 'Error');
+        }
+        
+        return $Listado;
+    } 
+    
+    function GetTipoParteAll()
+    {
+         $SQL = "SELECT 
+                    inc_tipo_parte.id, 
+                    inc_tipo_parte.tipo_parte
+                FROM 
+                    inc_aplicacion INNER JOIN inc_tipo_parte 
+                    ON inc_aplicacion.id = inc_tipo_parte.id_aplicacion";
+        
+        $query = $this->db->query($SQL);
+        
+        $Listado="";
         
         if ($query->num_rows() > 0)
         {
