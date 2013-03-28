@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <div class="span5">
-                                    <button class="mini"><i class="icon-plus-2" onclick="AddServicio()"></i> Crear</button>
+                                    <button class="mini" onclick="AddServicio()" title="Crea un nuevo servicio"><i class="icon-plus-2"></i> Crear</button>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                                 <div class="span3">                                
-                                    <button class="mini"><i class="icon-cancel-2" onclick="DelServicio()"></i> Eliminar</button>
+                                    <button class="mini" onclick="DelServicio()" title="Borra el servico seleccionado"><i class="icon-cancel-2"></i> Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                             </div>
                         </div>
                         <div class="span3">
-                            <button class="mini"><i class="icon-enter" onclick="RefreshParmisoServico()"></i> Actualiza Permisos</button>
+                            <button class="mini" onclick="RefreshPermisoServicio()"><i class="icon-enter"></i> Actualiza Permisos</button>
                         </div>
                     </fieldset>
                 </div>
@@ -113,7 +113,7 @@
                                     </div>
                                 </div>
                                 <div class="span5">
-                                    <button class="mini"><i class="icon-plus-2" onclick="AddAplicacion()"></i> Crear</button>
+                                    <button class="mini" onclick="AddAplicacion()" title="Crea un nueva Aplicacion"><i class="icon-plus-2"></i> Crear</button>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                                     </div>
                                 </div>
                                 <div class="span3">                                
-                                    <button class="mini"><i class="icon-cancel-2" onclick="DelAplicacion()"></i> Eliminar</button>
+                                    <button class="mini" onclick="DelAplicacion()" title="Borra App"><i class="icon-cancel-2"></i> Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                             </div>
                         </div>
                         <div class="span3">
-                            <button class="mini"><i class="icon-enter" onclick="RefreshParmisoAplicacion()"></i> Actualiza Permisos</button>
+                            <button class="mini"><i class="icon-enter" onclick="RefreshPermisoApp()"></i> Actualiza Permisos</button>
                         </div>
                     </fieldset>
                 </div>

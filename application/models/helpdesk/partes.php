@@ -189,7 +189,7 @@ class Partes extends CI_Model
         }
         else 
         {
-            $Listado = array('1' => 'Error');
+            $Listado = array('0' => 'Error');
         }
         
         return $Listado;
@@ -221,7 +221,75 @@ class Partes extends CI_Model
         }
         
         return $Listado;
-    } 
+    }
+    
+    function GetPartesAll()
+    {
+        $SQL ="SELECT 
+                    inc_parte.id,
+                    inc_parte.numero_parte,
+                    inc_tipo_parte.tipo_parte
+               FROM 
+                    inc_tipo_parte INNER JOIN 
+                      (inc_parte INNER JOIN inc_incidencias 
+                      ON inc_parte.id_incidencia = inc_incidencias.id) 
+                    ON inc_tipo_parte.id = inc_parte.tipo";
+               
+                                    
+                $query = $this->db->query($SQL);
+                
+                $Contador = 0;
+                
+                if ($query->num_rows() > 0)
+                {
+                    foreach ($query->result() as $row)
+                    {
+                        $Listado[$Contador]['IdParte'] = $row->id;
+                        $Listado[$Contador]['TipoParte'] = $row->tipo_parte;
+                        $Listado[$Contador]['Parte'] = $row->numero_parte;
+                        
+                        $Contador++;
+                    }
+                }
+                else
+                {
+                                     
+                    $Listado[$Contador]['IdParte'] = "";
+                    $Listado[$Contador]['TipoParte'] = "";
+                    $Listado[$Contador]['Parte'] = "";
+                }
+                
+                return $Listado;
+    }
+    
+    function PermisosAplicaciones($IdAplicacion, $Selecionados)
+    {
+      
+        $SQL = "UPDATE 
+                    inc_tipo_parte 
+                SET 
+                    inc_tipo_parte.id_aplicacion = 0 
+                WHERE 
+                    inc_tipo_parte.id_aplicacion = ".$IdAplicacion;
+        
+        $this->db->query($SQL);
+        
+        for($Contador = 0 ; $Contador < count($Selecionados) ; $Contador++)
+        {
+            $SQL = "UPDATE 
+                        inc_tipo_parte 
+                    SET 
+                        inc_tipo_parte.id_aplicacion =".$IdServicio." 
+                    WHERE 
+                        inc_tipo_parte.id=".$Selecionados[$Contador];
+            
+            $query = $this->db->query($SQL);
+            
+            
+        }
+         
+        
+     }
 }
 
 ?>

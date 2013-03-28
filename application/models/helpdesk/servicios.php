@@ -59,24 +59,35 @@ class Servicios extends CI_Model
     
     function GetServicios($IdArea)
     {         
+       $Listado="";
+        
         $SQL = "SELECT 
-                    inc_servicio.id, 
-                    inc_servicio.servicio 
+                    inc_rule_serv.id_servicio  
                 FROM 
-                    inc_area INNER JOIN inc_servicio 
-                    ON inc_area.id = inc_servicio.id_area 
+                    inc_rule_serv
                 WHERE 
-                    inc_servicio.id_area='".$IdArea."' ";
+                    inc_rule_serv.id_area ='".$IdArea."' ";
         
         $query = $this->db->query($SQL);
-        
-        $Listado="";
         
         if ($query->num_rows() > 0)
         {
             foreach ($query->result() as $row)
             {
-                $Listado[$row->id] = $row->servicio;
+                $SQL = "SELECT 
+                            inc_servicio.id,
+                            inc_servicio.servicio
+                        FROM 
+                            inc_servicio
+                        WHERE 
+                            inc_servicio.id ='".$row->id_servicio."' ";
+            
+                $query_serv = $this->db->query($SQL);
+                
+                foreach ($query_serv->result() as $row_serv)
+                {
+                    $Listado[$row_serv->id] = $row_serv->servicio;
+                }
             }
         }
         else 
@@ -141,29 +152,32 @@ class Servicios extends CI_Model
     }
     
     function PermisosArea($IdArea, $Selecionados)
-    {
-        $Acumulado = 0;
-        
-        $SQL = "UPDATE 
-                    inc_servicio 
-                SET 
-                    inc_servicio.id_area = 0 
+    {        
+        $SQL = "DELETE FROM 
+                    inc_rule_serv
                 WHERE 
-                    inc_servicio.id_area=".$IdArea;
+                    inc_rule_serv.id_area = ".$IdArea."";
         
         $this->db->query($SQL);
         
-        for($Contador = 0 ; $Contador < count($Selecionados) ; $Contador++)
+        if($Selecionados[0] != NULL)
         {
-            $SQL = "UPDATE 
-                        inc_servicio 
-                    SET 
-                        inc_servicio.id_area=".$IdArea."
-                    WHERE 
-                        inc_servicio.id=".$Selecionados[$Contador];
+            for($Contador = 0 ; $Contador < count($Selecionados) ; $Contador++)
+            {
+                $SQL = "INSERT INTO
+                        `inc_rule_serv`   
+                        (
+                            `id_area`,
+                            `id_servicio`
+                        ) 
+                    VALUES 
+                        (
+                            '".$IdArea."',
+                            '".$Selecionados[$Contador]."'
+                        )";
             
-            $query = $this->db->query($SQL);
-            
+                $query = $this->db->query($SQL);
+            }
             
         }
          

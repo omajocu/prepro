@@ -375,9 +375,9 @@ class Helpdesk extends CI_Controller
         $this->load->model('helpdesk/Aplicaciones','',TRUE);
         
     
-        If($_POST['IdArea'] != 999 && $_POST['IdServicio'] != 999)
+        If($_POST['IdServicio'] != 999)
         {
-            $Lista = $this->Aplicaciones->GetAplicaciones($_POST['IdArea'],$_POST['IdServicio']);
+            $Lista = $this->Aplicaciones->GetAplicaciones($_POST['IdServicio']);
             $Lista[999] = "Seleciona Una Aplicacion";
             
             echo form_dropdown('Aplicaciones', $Lista , '999', 'id="Aplicaciones"');
@@ -791,7 +791,7 @@ class Helpdesk extends CI_Controller
         
         $this->Servicios->NewServicio($_POST['NuevoServicio']);
         
-        echo form_dropdown('ListaServicios', $this->Servicios->GetServicios(), '999', 'id="ListaServicios"');
+        echo form_dropdown('ListaServicios', $this->Servicios->GetServiciosAll(), '999', 'id="ListaServicios"');
     }
     
     public function BorraServicio()
@@ -800,7 +800,7 @@ class Helpdesk extends CI_Controller
         
         $this->Servicios->DelServicio($_POST['IdServicio']);
         
-        echo form_dropdown('ListaServicios', $this->Servicios->GetServicios(), '999', 'id="ListaServicios"');
+        echo form_dropdown('ListaServicios', $this->Servicios->GetServiciosAll(), '999', 'id="ListaServicios"');
     }
     
     public function RefrescaServicio()
@@ -809,14 +809,48 @@ class Helpdesk extends CI_Controller
         
         $this->Aplicaciones->PermisosServicios($_POST['IdServicio'],explode(',',$_POST['str']));
         
-        echo form_dropdown('ListAplicaciones', $this->Aplicaciones->GetAplicacionesAll(), array_keys($this->Aplicaciones->GetAplicaciones($_POST['IdArea'])), 'id="ListAplicaciones" multiple size="6"');
+        echo form_dropdown('ListAplicaciones', $this->Aplicaciones->GetAplicacionesAll(), array_keys($this->Aplicaciones->GetAplicaciones($_POST['IdServicio'])), 'id="ListAplicaciones" multiple size="6"');
     }
     
     public function PermisosAplicacion()
     {
         $this->load->model('helpdesk/Aplicaciones','',TRUE);
         
-        echo form_dropdown('ListAplicaciones', $this->Aplicaciones->GetAplicacionesAll(), array_keys($this->Aplicaciones->GetAplicaciones($_POST['IdArea'])), 'id="ListAplicaciones" multiple size="6"');
+        echo form_dropdown('ListAplicaciones', $this->Aplicaciones->GetAplicacionesAll(), array_keys($this->Aplicaciones->GetAplicaciones($_POST['IdServicio'])), 'id="ListAplicaciones" multiple size="6"');
+    }
+    
+    public function CreaAplicacion()
+    {
+        $this->load->model('helpdesk/Aplicaciones','',TRUE);
+        
+        $this->Aplicaciones->NewAplicacion($_POST['NuevaAplicacion']);
+        
+        echo form_dropdown('ListaApp', $this->Aplicaciones->GetAplicacionesAll(), '999', 'id="ListaApp"');
+    }
+    
+    public function BorraAplicacion()
+    {
+        $this->load->model('helpdesk/Aplicaciones','',TRUE);
+        
+        $this->Aplicaciones->DelAplicacion($_POST['IdAplicacion']);
+        
+        echo form_dropdown('ListaApp', $this->Aplicaciones->GetAplicacionesAll(), '999', 'id="ListaApp"');
+    }
+    
+    public function RefrescaAplicaciones()
+    {
+        $this->load->model('helpdesk/Partes','',TRUE);
+        
+        $this->Partes->PermisosAplicaciones($_POST['IdAplicacion'],explode(',',$_POST['str']));
+        
+        echo form_dropdown('ListPartes', $this->Partes->GetTipoParteAll(), array_keys($this->Partes->GetTipoParte($_POST['IdAplicacion'])), 'id="ListPartes" multiple size="6"');
+    }
+    
+    public function PermisosPartes()
+    {
+        $this->load->model('helpdesk/Partes','',TRUE);
+        
+        echo form_dropdown('ListPartes', $this->Partes->GetTipoParteAll(), array_keys($this->Partes->GetTipoParte($_POST['IdAplicacion'])), 'id="ListPartes" multiple size="6"');
     }
 }
 

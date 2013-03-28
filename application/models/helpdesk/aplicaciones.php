@@ -59,47 +59,54 @@ class Aplicaciones extends CI_Model
         return $Salida;
     }
     
-    function GetAplicaciones($IdArea, $IdServicio)
+    function GetAplicaciones($IdServicio)
     {         
-        $SQL = "SELECT 
-                    inc_aplicacion.id, 
-                    inc_aplicacion.aplicacion
-                FROM 
-                    (
-                        inc_area INNER JOIN inc_servicio 
-                        ON inc_area.id = inc_servicio.id_area
-                     ) 
-                     INNER JOIN inc_aplicacion ON 
-                     (
-                        inc_servicio.id = inc_aplicacion.id_servicio
-                     ) 
-                     AND 
-                     (
-                        inc_area.id = inc_aplicacion.id_area
-                      )
-                WHERE 
-                      inc_aplicacion.id_area='".$IdArea."' 
-                      AND 
-                      inc_aplicacion.id_servicio='".$IdServicio."'";
+        $Listado="";
+        
+        $SQL = "SELECT
+                    inc_rule_app.id_app
+                FROM
+                    inc_rule_app
+                WHERE
+                    inc_rule_app.id_servicio=".$IdServicio."
+                ";
         
         $query = $this->db->query($SQL);
-        
-        $Listado="";
         
         if ($query->num_rows() > 0)
         {
             foreach ($query->result() as $row)
             {
-                $Listado[$row->id] = $row->aplicacion;
+                $SQL = "SELECT
+                            inc_aplicacion.id,
+                            inc_aplicacion.aplicacion
+                        FROM
+                            inc_aplicacion
+                        WHERE
+                            inc_aplicacion.id=".$row->id_app."
+                        ";
+                $query_app = $this->db->query($SQL);
+                
+                if($query_app->num_rows() > 0)
+                {
+                    foreach ($query_app->result() as $row_app)
+                    {
+                        $Listado[$row_app->id] = $row_app->aplicacion;
+                    }  
+                }
+                else
+                {
+                    $Listado = array('0' => 'Error');
+                }  
             }
         }
         else 
         {
-            $Listado = array('1' => 'Error');
+            $Listado = array('0' => 'Error');
         }
         
         return $Listado;
-    }
+    }    
     
     function GetAplicacionById($IdAplicacion)
     {         
@@ -155,32 +162,33 @@ class Aplicaciones extends CI_Model
     }
     
     function PermisosServicios($IdServicio, $Selecionados)
-    {
-      
-        $SQL = "UPDATE 
-                    inc_aplicacion 
-                SET 
-                    inc_aplicacion.id_servicio = 0 
+    {        
+        $SQL = "DELETE FROM 
+                    inc_rule_app
                 WHERE 
-                    inc_aplicacion.id_servicio=".$IdServicio;
+                    inc_rule_app.id_servicio = ".$IdServicio."";
         
         $this->db->query($SQL);
         
-        for($Contador = 0 ; $Contador < count($Selecionados) ; $Contador++)
+        if($Selecionados[0] != NULL)
         {
-            $SQL = "UPDATE 
-                        inc_aplicacion 
-                    SET 
-                        inc_aplicacion.id_servicio =".$IdServicio." 
-                    WHERE 
-                        inc_aplicacion.id=".$Selecionados[$Contador];
+            for($Contador = 0 ; $Contador < count($Selecionados) ; $Contador++)
+            {
+                $SQL = "INSERT INTO
+                        `inc_rule_app`   
+                        (
+                            `id_servicio`,
+                            `id_app`
+                        ) 
+                    VALUES 
+                        (
+                            '".$IdServicio."',
+                            '".$Selecionados[$Contador]."'
+                        )";
             
-            $query = $this->db->query($SQL);
-            
-            
+                $query = $this->db->query($SQL);
+            }
         }
-         
-        
      }
 }
 

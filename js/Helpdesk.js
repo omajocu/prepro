@@ -1016,3 +1016,251 @@ function RefreshParmisoArea()
         }
     );
 }
+
+function AddServicio()
+{
+      var NuevoServicio = $("#AddServicio").val();
+      
+      var parametros = 
+    {
+        "NuevoServicio" : NuevoServicio
+    };
+   
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/CreaServicio',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListaServicios").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListaServicios").html(response);
+                $("#AddServicio").val("");
+            }
+        }
+    );
+  }
+  
+  function DelServicio()
+  {
+      var IdServicio = $("#ListaServicios").find(':selected').val();
+      
+      var parametros = 
+    {
+        "IdServicio" : IdServicio
+    };
+    
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/BorraServicio',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListaServicios").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListaServicios").html(response);
+            }
+        }
+    );
+  }
+  
+  $(document).ready
+(
+    function()
+    {
+        $("#ListaServicios").change
+        (
+            function(event)
+            {
+                var IdServicio = $("#ListaServicios").find(':selected').val();
+                
+            
+                var parametros = 
+                {
+                    "IdServicio" : IdServicio
+                    
+                }; 
+    
+                $.ajax
+                (   
+                    {
+                        data:  parametros,
+                        url:   'http://localhost/prepro/index.php/helpdesk/PermisosAplicacion',
+                        type:  'post',
+                        beforeSend: function () 
+                        {
+                            $("#ListAplicaciones").html("<img src='images/preloader-w8-line-black.gif' />");
+                        },
+                        success:  function (response) 
+                        {
+                            $("#ListAplicaciones").html(response);
+                        }
+                    }
+                );        
+            }
+        );
+    }
+);
+    
+function RefreshPermisoServicio() 
+{
+    var IdServicio = $("#ListaServicios").find(':selected').val();
+    var str = $("#ListAplicaciones").val() || [];
+    str = str.join(",");      
+    
+    var parametros = 
+    {
+        "str" : str,
+        "IdServicio" : IdServicio
+    };
+    
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/RefrescaServicio',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListAplicaciones").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListAplicaciones").html(response);
+            }
+        }
+    );
+}
+
+/* de aqui */
+
+function AddAplicacion()
+{
+      var NuevaAplicacion = $("#AddAplicacion").val();
+      
+      var parametros = 
+    {
+        "NuevaAplicacion" : NuevaAplicacion
+    };
+   
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/CreaAplicacion',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListaApp").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListaApp").html(response);
+                $("#AddAplicacion").val("");
+            }
+        }
+    );
+  }
+  
+  function DelAplicacion()
+  {
+      var IdAplicacion = $("#ListaApp").find(':selected').val();
+      
+      var parametros = 
+    {
+        "IdAplicacion" : IdAplicacion
+    };
+    
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/BorraAplicacion',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListaApp").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListaApp").html(response);
+            }
+        }
+    );
+  }
+  
+  $(document).ready
+(
+    function()
+    {
+        $("#ListaApp").change
+        (
+            function(event)
+            {
+                var IdAplicacion = $("#ListaApp").find(':selected').val();
+                
+            
+                var parametros = 
+                {
+                    "IdAplicacion" : IdAplicacion
+                    
+                }; 
+    
+                $.ajax
+                (   
+                    {
+                        data:  parametros,
+                        url:   'http://localhost/prepro/index.php/helpdesk/PermisosPartes',
+                        type:  'post',
+                        beforeSend: function () 
+                        {
+                            $("#ListPartes").html("<img src='images/preloader-w8-line-black.gif' />");
+                        },
+                        success:  function (response) 
+                        {
+                            $("#ListPartes").html(response);
+                        }
+                    }
+                );        
+            }
+        );
+    }
+);
+    
+function RefreshPermisoApp()
+{
+    var IdAplicacion = $("#ListaAplicaciones").find(':selected').val();
+    var str = $("#ListPartes").val() || [];
+    str = str.join(",");      
+    
+    var parametros = 
+    {
+        "str" : str,
+        "IdAplicacion" : IdAplicacion
+    };
+    
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/RefrescaPartes',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListPartes").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListPartes").html(response);
+            }
+        }
+    );
+}
