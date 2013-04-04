@@ -837,7 +837,7 @@ class Helpdesk extends CI_Controller
         echo form_dropdown('ListaApp', $this->Aplicaciones->GetAplicacionesAll(), '999', 'id="ListaApp"');
     }
     
-    public function RefrescaAplicaciones()
+    public function RefrescaPartes()
     {
         $this->load->model('helpdesk/Partes','',TRUE);
         
@@ -851,6 +851,80 @@ class Helpdesk extends CI_Controller
         $this->load->model('helpdesk/Partes','',TRUE);
         
         echo form_dropdown('ListPartes', $this->Partes->GetTipoParteAll(), array_keys($this->Partes->GetTipoParte($_POST['IdAplicacion'])), 'id="ListPartes" multiple size="6"');
+    }
+    
+    public function CreaTipoParte()
+    {
+        $this->load->model('helpdesk/Partes','',TRUE);
+        
+        $this->Partes->NewTipoParte($_POST['NuevoTipoParte']);
+        
+        echo form_dropdown('ListaPartes', $this->Partes->GetTipoParteAll(), '', 'id="ListaPartes" multiple size="6"');
+    }
+    
+    public function BorraTipoParte()
+    {
+        $this->load->model('helpdesk/Partes','',TRUE);
+        
+        $Listado = explode(',',$_POST['str']);
+        
+        foreach ($Listado as $row)
+        {
+            $this->Partes->DelTipoParte($row);
+        }
+        
+        echo form_dropdown('ListaPartes', $this->Partes->GetTipoParteAll(), '', 'id="ListaPartes" multiple size="6"');
+        
+    }
+    
+    public function CreaTipoRemedy()
+    {
+        $this->load->model('helpdesk/Remedys','',TRUE);
+        
+        $this->Remedys->NewTipoRemedy($_POST['NuevoTipoRemedy']);
+        
+        echo form_dropdown('ListaRemedy', $this->Remedys->GetTipoRemedy(), '', 'id="ListaRemedy" multiple size="6"');
+    }
+    
+    public function BorraTipoRemedy()
+    {
+        $this->load->model('helpdesk/Remedys','',TRUE);
+        
+        $Listado = explode(',',$_POST['str']);
+        
+        foreach ($Listado as $row)
+        {
+            $this->Remedys->DelTipoRemedy($row);
+        }
+        
+        echo form_dropdown('ListaRemedy', $this->Remedys->GetTipoRemedy(), '', 'id="ListaRemedy" multiple size="6"');
+        
+    }
+    
+    public function CreaTipoElemento()
+    {
+        $this->load->model('helpdesk/Elementos','',TRUE);
+        
+        $this->Elementos->NewTipoElemento($_POST['NuevoTipoElemento']);
+        
+        echo form_dropdown('ListaElementos', $this->Elementos->GetTipoElemento(), '', 'id="ListaElementos" multiple size="6"');
+        
+    }
+    
+    public function BorraTipoElemento()
+    {
+        $this->load->model('helpdesk/Elementos','',TRUE);
+        
+        $Listado = explode(',',$_POST['str']);
+        
+        foreach ($Listado as $row)
+        {
+            $this->Elementos->DelTipoElemento($row);
+        }
+        
+        echo form_dropdown('ListaElementos', $this->Elementos->GetTipoElemento(), '', 'id="ListaElementos" multiple size="6"');
+        
+        
     }
 }
 

@@ -1206,7 +1206,6 @@ function AddAplicacion()
             function(event)
             {
                 var IdAplicacion = $("#ListaApp").find(':selected').val();
-                
             
                 var parametros = 
                 {
@@ -1237,7 +1236,7 @@ function AddAplicacion()
     
 function RefreshPermisoApp()
 {
-    var IdAplicacion = $("#ListaAplicaciones").find(':selected').val();
+    var IdAplicacion = $("#ListaApp").find(':selected').val();
     var str = $("#ListPartes").val() || [];
     str = str.join(",");      
     
@@ -1264,3 +1263,171 @@ function RefreshPermisoApp()
         }
     );
 }
+
+function AddTipoParte()
+{
+      var NuevoTipoParte = $("#AddParte").val();
+      
+      var parametros = 
+    {
+        "NuevoTipoParte" : NuevoTipoParte
+    };
+   
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/CreaTipoParte',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListaPartes").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListaPartes").html(response);
+                $("#AddParte").val("");
+            }
+        }
+    );
+  }
+  
+  function DelTipoParte()
+  {
+      var str = $("#ListaPartes").val() || [];
+      str = str.join(","); 
+      
+      var parametros = 
+    {
+        "str" : str
+    };
+    
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/BorraTipoParte',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListaPartes").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListaPartes").html(response);
+            }
+        }
+    );
+  }
+  
+  function AddTipoRemedy()
+{
+      var NuevoTipoRemedy = $("#AddRemedy").val();
+      
+      var parametros = 
+    {
+        "NuevoTipoRemedy" : NuevoTipoRemedy
+    };
+   
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/CreaTipoRemedy',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListaRemedy").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListaRemedy").html(response);
+                $("#AddRemedy").val("");
+            }
+        }
+    );
+  }
+  
+  function DelTipoRemedy()
+  {
+      var str = $("#ListaRemedy").val() || [];
+      str = str.join(","); 
+      
+      var parametros = 
+    {
+        "str" : str
+    };
+    
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/BorraTipoRemedy',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListaRemedy").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListaRemedy").html(response);
+            }
+        }
+    );
+  }
+  
+  function AddTipoElemento()
+{
+      var NuevoTipoElemento = $("#AddElemento").val();
+      
+      var parametros = 
+    {
+        "NuevoTipoElemento" : NuevoTipoElemento
+    };
+   
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/CreaTipoElemento',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListaElementos").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListaElementos").html(response);
+                $("#AddElemento").val("");
+            }
+        }
+    );
+  }
+  
+  function DelTipoElemento()
+  {
+      var str = $("#ListaElementos").val() || [];
+      str = str.join(","); 
+      
+      var parametros = 
+    {
+        "str" : str
+    };
+    
+    $.ajax
+    (
+        {
+            data:  parametros,
+            url:   'http://localhost/prepro/index.php/Helpdesk/BorraTipoElemento',
+            type:  'post',
+            beforeSend: function () 
+            {
+                $("#ListaElementos").html("<img src='images/preloader-w8-line-black.gif' />");
+            },
+            success:  function (response) 
+            {
+                $("#ListaElementos").html(response);
+            }
+        }
+    );
+  }

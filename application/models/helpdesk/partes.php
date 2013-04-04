@@ -119,17 +119,15 @@ class Partes extends CI_Model
                 return $Listado;
     }
     
-    function NewTipoParte($NuevoTipo, $IdAplicacion)
+    function NewTipoParte($NuevoTipo)
     {
         $SQL = "INSERT INTO
                     `inc_tipo_parte`
                     (
-                        `id_aplicacion`,
                         `tipo_parte`
                     ) 
                 VALUES 
                     (
-                        '".$IdAplicacion."',
                         '".$NuevoTipo."'
                      )";
         
@@ -167,24 +165,42 @@ class Partes extends CI_Model
 
     function GetTipoParte($IdAplicacion)
     {
-         $SQL = "SELECT 
-                    inc_tipo_parte.id, 
-                    inc_tipo_parte.tipo_parte
-                FROM 
-                    inc_aplicacion INNER JOIN inc_tipo_parte 
-                    ON inc_aplicacion.id = inc_tipo_parte.id_aplicacion
-                WHERE 
-                    inc_tipo_parte.id_aplicacion='".$IdAplicacion."'";
+        $Listado=""; 
+        
+        $SQL = "SELECT
+                    inc_rule_tipoparte.id_tipo_parte
+                 FROM
+                    inc_rule_tipoparte
+                 WHERE
+                    inc_rule_tipoparte.id_app = ".$IdAplicacion;
         
         $query = $this->db->query($SQL);
-        
-        $Listado="";
         
         if ($query->num_rows() > 0)
         {
             foreach ($query->result() as $row)
             {
-                $Listado[$row->id] = $row->tipo_parte;
+                $SQL = "SELECT
+                            inc_tipo_parte.id,
+                            inc_tipo_parte.tipo_parte
+                        FROM
+                            inc_tipo_parte
+                        WHERE
+                            inc_tipo_parte.id='".$row->id_tipo_parte."'";
+                
+                $query_parte = $this->db->query($SQL);
+                
+                if($query_parte->num_rows() > 0)
+                {
+                    foreach ($query_parte->result() as $row_parte)
+                    {
+                        $Listado[$row_parte->id] = $row_parte->tipo_parte;
+                    }  
+                }
+                else
+                {
+                    $Listado = array('0' => 'Error');
+                }
             }
         }
         else 
@@ -201,8 +217,7 @@ class Partes extends CI_Model
                     inc_tipo_parte.id, 
                     inc_tipo_parte.tipo_parte
                 FROM 
-                    inc_aplicacion INNER JOIN inc_tipo_parte 
-                    ON inc_aplicacion.id = inc_tipo_parte.id_aplicacion";
+                    inc_tipo_parte";
         
         $query = $this->db->query($SQL);
         
@@ -217,7 +232,7 @@ class Partes extends CI_Model
         }
         else 
         {
-            $Listado = array('1' => 'Error');
+            $Listado = array('0' => 'Error');
         }
         
         return $Listado;
@@ -263,32 +278,33 @@ class Partes extends CI_Model
     }
     
     function PermisosAplicaciones($IdAplicacion, $Selecionados)
-    {
-      
-        $SQL = "UPDATE 
-                    inc_tipo_parte 
-                SET 
-                    inc_tipo_parte.id_aplicacion = 0 
+    {        
+        $SQL = "DELETE FROM 
+                    inc_rule_tipoparte
                 WHERE 
-                    inc_tipo_parte.id_aplicacion = ".$IdAplicacion;
+                    inc_rule_tipoparte.id_app = ".$IdAplicacion;
         
         $this->db->query($SQL);
         
-        for($Contador = 0 ; $Contador < count($Selecionados) ; $Contador++)
+        if($Selecionados[0] != NULL)
         {
-            $SQL = "UPDATE 
-                        inc_tipo_parte 
-                    SET 
-                        inc_tipo_parte.id_aplicacion =".$IdServicio." 
-                    WHERE 
-                        inc_tipo_parte.id=".$Selecionados[$Contador];
+            for($Contador = 0 ; $Contador < count($Selecionados) ; $Contador++)
+            {
+                $SQL = "INSERT INTO
+                        `inc_rule_tipoparte`   
+                        (
+                            `id_app`,
+                            `id_tipo_parte`
+                        ) 
+                    VALUES 
+                        (
+                            '".$IdAplicacion."',
+                            '".$Selecionados[$Contador]."'
+                        )";
             
-            $query = $this->db->query($SQL);
-            
-            
+                $query = $this->db->query($SQL);
+            }
         }
-         
-        
      }
 }
 

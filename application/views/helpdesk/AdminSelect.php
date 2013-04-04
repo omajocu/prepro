@@ -127,7 +127,7 @@
                                     </div>
                                 </div>
                                 <div class="span3">                                
-                                    <button class="mini" onclick="DelAplicacion()" title="Borra App"><i class="icon-cancel-2"></i> Eliminar</button>
+                                    <button class="mini" onclick="DelAplicacion()" title="Borra Aplicacion"><i class="icon-cancel-2"></i> Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -135,11 +135,11 @@
                             <div class="input-control select" style="width: 200px;">
                                 <select multiple size="6" id="ListPartes" name="ListPartes">
                                     <option value="999">Seleccione una Aplicacion</option>
-                                </select>                                
+                                </select> 
                             </div>
                         </div>
                         <div class="span3">
-                            <button class="mini"><i class="icon-enter" onclick="RefreshPermisoApp()"></i> Actualiza Permisos</button>
+                            <button class="mini" onclick="RefreshPermisoApp()" title="Actualiza Permisos"><i class="icon-enter" ></i> Actualiza Permisos</button>
                         </div>
                     </fieldset>
                 </div>
@@ -157,7 +157,7 @@
                                     </div>
                                 </div>
                                 <div class="span5">
-                                    <button class="mini"><i class="icon-plus-2" onclick="AddParte()"></i> Crear</button>
+                                    <button class="mini" onclick="AddTipoParte()" title="Añade nuevo tipo de parte"><i class="icon-plus-2"></i> Crear</button>
                                 </div>
                             </div>
                         </div>
@@ -171,7 +171,7 @@
                                     </div>
                                 </div>
                                 <div class="span3">                                
-                                    <button class="mini"><i class="icon-cancel-2" onclick="DelParte()"></i> Eliminar</button>
+                                    <button class="mini" onclick="DelTipoParte()" title="Borra los tipos de partes seleccionados."><i class="icon-cancel-2"></i> Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -191,7 +191,7 @@
                                     </div>
                                 </div>
                                 <div class="span5">
-                                    <button class="mini"><i class="icon-plus-2" onclick="AddRemedy()"></i> Crear</button>
+                                    <button class="mini" onclick="AddTipoRemedy()" title="Añade nuevo tipo de remedy"><i class="icon-plus-2"></i> Crear</button>
                                 </div>
                             </div>
                         </div>
@@ -205,7 +205,7 @@
                                     </div>
                                 </div>
                                 <div class="span3">                                
-                                    <button class="mini"><i class="icon-cancel-2" onclick="DelRemedy()"></i> Eliminar</button>
+                                    <button class="mini"  onclick="DelTipoRemedy()" title="Borra los tipos de remedys seleccionados."><i class="icon-cancel-2"></i> Eliminar</button>
                                 </div>
                             </div>
                         </div>
@@ -225,7 +225,7 @@
                                     </div>
                                 </div>
                                 <div class="span5">
-                                    <button class="mini"><i class="icon-plus-2" onclick="AddElemento()"></i> Crear</button>
+                                    <button class="mini" onclick="AddTipoElemento()" title="Añade nuevo tipo de elemento"><i class="icon-plus-2" ></i> Crear</button>
                                 </div>
                             </div>
                         </div>
@@ -239,7 +239,7 @@
                                     </div>
                                 </div>
                                 <div class="span3">                                
-                                    <button class="mini"><i class="icon-cancel-2" onclick="DelElemento()"></i> Eliminar</button>
+                                    <button class="mini" onclick="DelTipoElemento()" title="Borra los tipos de remedys seleccionados."><i class="icon-cancel-2" ></i> Eliminar</button>
                                 </div>
                             </div>
                         </div>
